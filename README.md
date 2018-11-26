@@ -27,3 +27,9 @@ coups décrits dans un fichier ; Le projet devra être fourni avec un jeu de
 tests sous cette forme-là, associés à une description du résultat attendu.
 — gestion de l’historique d’une partie (annulation, rejeu, ...) ;
 — sauvegarde et restauration d’une partie vers/depuis un fichier.
+
+
+Makefile OK
+Patron des classes OK
+
+A faire : classe game
