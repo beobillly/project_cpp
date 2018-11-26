@@ -1,5 +1,9 @@
 #include "../include/Board.hpp"
 
+Board::Board()
+{
+}
+
 Board::Board(int width, int height)
 {
     this->width = width;

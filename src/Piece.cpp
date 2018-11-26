@@ -1,5 +1,9 @@
 #include "../include/Piece.hpp"
 
+Piece::Piece()
+{
+}
+
 Piece::Piece(bool color, Rank rank)
 {
     this->color = color;

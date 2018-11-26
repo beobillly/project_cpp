@@ -1,5 +1,9 @@
 #include "../include/Square.hpp"
 
+Square::Square()
+{
+}
+
 Square::Square(bool color, Piece *piece, int x, int y)
 {
     this->color = color;

@@ -16,5 +16,7 @@ Game::~Game()
 
 int main(int argc,char **argv)
 {
+    Game game = Game();
+    cout << "ça marche ... pour le moment" << endl;
     return 0;
 }

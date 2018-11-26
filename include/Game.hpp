@@ -16,6 +16,7 @@ class Game
   private:
     Player player_white;
     Player player_black;
+    Board board;
 };
 
 #endif

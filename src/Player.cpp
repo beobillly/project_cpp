@@ -1,5 +1,9 @@
 #include "../include/Player.hpp"
 
+Player::Player()
+{
+}
+
 Player::Player(string name, bool color)
 {
     this->name = name;
