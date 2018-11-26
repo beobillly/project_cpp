@@ -2,7 +2,7 @@
 
 Game::Game()
 {
-    Player player_white = Player("", true);
+    Player player_white = Player(std::__cxx11::string(""), true);
     Player player_black = Player("", false);
     const int TAILLE_FR = 10;
     Board board = Board(TAILLE_FR,TAILLE_FR);
