@@ -6,26 +6,25 @@ PROJET C++
 JEU CHOISI :
 ----------
 
-Dame Classique + Variante
+— Dame Classique + Variante
 
-Echec classique
+— Echec classique
 
 -------------------------------------------------------------------------------------------------------------------------------------
 
 CONVENTIONS :
 -------------
 
-TRUE = BLANC (WHITE)
-FALSE = NOIR (BLACK)
-
-[0,0] EN HAUT A GAUCHE
+— TRUE = BLANC (WHITE)
+— FALSE = NOIR (BLACK)
+— [0,0] EN HAUT A GAUCHE
 
 -----------------------------------------------------------------------------------------------------------------------------------
 
 TRAVAIL A FAIRE :
 -----------------
 
-affichage, à chaque tour, du plateau (damier, échiquier, . . .) en mode texte ; 
+— affichage, à chaque tour, du plateau (damier, échiquier, . . .) en mode texte ; 
 le mode texte est impératif, il n’est pas question d’utiliser une interface graphique ;
 
 — lecture du prochain coup au clavier ; pour les coups des dames et échec,
@@ -53,9 +52,9 @@ Le projet devra être fourni avec un jeu de tests sous cette forme-là, associé
 TRAVAIL RÉALISÉ :
 -----------------
 
-Makefile OK (ne pas toucher)
-Patron des classes sans les fonctions OK (à completer)
-Getter OK (ne pas toucher aux existants, à compléter si besoin)
+— Makefile OK (ne pas toucher)
+— Patron des classes sans les fonctions OK (à completer)
+— Getter OK (ne pas toucher aux existants, à compléter si besoin)
 
 Arborescence du projet : 
 
@@ -68,14 +67,14 @@ Arborescence du projet :
 
 A faire : 
 
-SETTER (quand il faut)
-Fonctions des classes (le plus gros du travail)
-classe game (ou on mettra les fonctions)
+— SETTER (quand il faut)
+— Fonctions des classes (le plus gros du travail)
+— classe game (ou on mettra les fonctions)
 
 Attention :
 
-Quand on fait des imports on fait ../include/mon_import.hpp quand on est dans un .cpp
-                                  ../src/mon_import.cpp quand on est dans un .hpp (cas des enums par exemple)
+Quand on fait des imports on fait : — ../include/mon_import.hpp quand on est dans un .cpp
+                                    — ../src/mon_import.cpp quand on est dans un .hpp (cas des enums par exemple)
 
 Quand on declare une classe, ne pas oublier de déclarer le constructeur vide dans le .cpp
 
