@@ -79,10 +79,14 @@ A faire :
 
 Attention :
 
-Quand on fait des imports on fait : — ../include/mon_import.hpp quand on est dans un .cpp
+Quand on fait des imports on fait : 
 
-                                    — ../src/mon_import.cpp quand on est dans un .hpp (cas des enums par exemple)
+                — ../include/mon_import.hpp quand on est dans un .cpp
 
-Quand on declare une classe, ne pas oublier de déclarer le constructeur vide dans le .cpp
+                — ../src/mon_import.cpp quand on est dans un .hpp (cas des enums par exemple)
+
+Quand on declare une classe :
+                
+                — ne pas oublier de déclarer le constructeur vide dans le .cpp
 
 -----------------------------------------------------------------------------------------------------------------------------------
