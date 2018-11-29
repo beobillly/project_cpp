@@ -145,3 +145,30 @@ Quand on declare une classe :
                 — ne pas oublier de déclarer le constructeur vide dans le .cpp
 
 -----------------------------------------------------------------------------------------------------------------------------------
+
+HOW TO USE : 
+-----------
+
+1/ Allez dans le répertoire courant du dossier
+
+2/ tapez make
+
+3/ tapez ./build/apps/Game
+
+4/ Suivez les instructions
+
+
+-----------------------------------------------------------------------------------------------------------------------------------
+
+OPTIONS POUR LE MAKEFILE
+
+Les options disponibles dans le Makefile :
+
+        build 
+        clean 
+        debug 
+        release
+
+tapez par exemple "make clean" pour lancer la commande
+
+-----------------------------------------------------------------------------------------------------------------------------------
