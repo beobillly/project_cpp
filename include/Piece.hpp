@@ -1,5 +1,6 @@
 #ifndef PIECE
 #define PIECE
+#include <iostream>
 #include "../src/Rank.cpp"
 
 class Piece
@@ -14,6 +15,7 @@ public:
   ~Piece();
   bool getColor();
   Rank getRank();
+  void promotion(Rank RANG, bool color);
 
 private:
   bool color;

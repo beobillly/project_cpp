@@ -19,6 +19,9 @@ public:
   ~Board();
   int getWidth();
   int getHeight();
+  void show();
+  Square getSquare(int x, int y);
+  void init();
 
 private:
   int width;

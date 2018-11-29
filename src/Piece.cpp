@@ -22,3 +22,9 @@ Rank Piece::getRank()
 {
     return Piece::rank;
 }
+
+void Piece::promotion(Rank RANG, bool color)
+{
+    Piece::rank = RANG;
+    Piece::color = color;
+}

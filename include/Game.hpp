@@ -2,21 +2,28 @@
 #define GAME
 #include "Player.hpp"
 #include "Board.hpp"
-
+#include "../src/Game_type.cpp"
 class Game
 {
-  public:
-    Game();
-    Game(Game &&) = default;
-    Game(const Game &) = default;
-    Game &operator=(Game &&) = default;
-    Game &operator=(const Game &) = default;
-    ~Game();
-    
-  private:
-    Player player_white;
-    Player player_black;
-    Board board;
+public:
+  Game();
+  Game(Game &&) = default;
+  Game(const Game &) = default;
+  Game &operator=(Game &&) = default;
+  Game &operator=(const Game &) = default;
+  ~Game();
+  void init();
+  Game_type ask_game_type();
+  string ask_player_name();
+  void refresh();
+  void init_pawn(int pos);
+  void init_strong(int pos);
+
+private:
+  Player player_white;
+  Player player_black;
+  Board board;
+  Game_type game_type;
 };
 
 #endif

@@ -8,16 +8,7 @@ Board::Board(int width, int height)
 {
     this->width = width;
     this->height = height;
-    board = new Square *[height];
-    for (int i = 0; i < width; i++)
-    {
-        board[i] = new Square[height];
-        for (int j = 0; j < height; j++)
-        {
-            Piece piece = Piece(i % 2 == 0, Rank::EMPTY);
-            board[i][j] = Square(i % 2 == 0, &piece, i, j);
-        }
-    }
+    init();
 }
 
 Board::~Board() {}
@@ -29,4 +20,43 @@ int Board::getWidth()
 int Board::getHeight()
 {
     return Board::height;
+}
+
+void Board::show()
+{
+    for (int i = 0; i < Board::height; i++)
+    {
+        for (int j = 0; j < Board::width; j++)
+        {
+            Board::board[i][j].show();
+        }
+        std::cout << "" << '\n';
+    }
+}
+
+Square Board::getSquare(int x, int y)
+{
+    return Board::board[x][y];
+}
+
+/*Ca bug la dedans*/
+
+void Board::init()
+{
+    Board::board = new Square *[Board::height];
+    for (int i = 0; i < Board::height; i++)
+    {
+        Board::board[i] = new Square[Board::width];
+    }
+
+    for (int i = 0; i < Board::height; i++)
+    {
+        for (int j = 0; j < Board::width; j++)
+        {
+            bool b = j % 2 == 0;
+            Piece piece = Piece(b, Rank::KNIGHT);
+            Square square = Square(&piece, i, j);
+            Board::board[i][j].setPiece(&piece);
+        }
+    }
 }

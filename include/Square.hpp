@@ -6,7 +6,7 @@ class Square
 {
 public:
   Square();
-  Square(bool color, Piece *piece, int x, int y);
+  Square(Piece *piece, int x, int y);
   Square(Square &&) = default;
   Square(const Square &) = default;
   Square &operator=(Square &&) = default;
@@ -14,11 +14,13 @@ public:
   ~Square();
   bool getColor();
   Piece *getPiece();
+  void setPiece(Piece *piece_bis);
   int getX();
   int getY();
+  void show();
 
 private:
-  bool color;
+  // bool color;
   Piece *piece;
   int x;
   int y;
