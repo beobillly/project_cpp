@@ -66,8 +66,6 @@ Le projet devra être fourni avec un jeu de tests sous cette forme-là, associé
 
 — sauvegarde et restauration d’une partie vers/depuis un fichier.
 
-------------------------------------------------------------------------
-
 ---------------------------------------------------------------------------------------------------------------------------------------
 
 TRAVAIL RÉALISÉ :
