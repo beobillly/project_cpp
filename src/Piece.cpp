@@ -8,8 +8,8 @@ Piece::Piece(bool color, Rank rank, int x, int y)
 {
     this->color = color;
     this->rank = rank;
-	this->x = x;
-	this->y = y;
+    this->x = x;
+    this->y = y;
 }
 
 Piece::~Piece()
