@@ -27,8 +27,8 @@ void Game::init()
     case Game_type::ECHEC:
         init_pawn(0);
         init_strong(1);
-        init_strong(Game::board.getHeight()-2);
-        init_pawn(Game::board.getHeight()-1);
+        init_strong(Game::board.getHeight() - 2);
+        init_pawn(Game::board.getHeight() - 1);
         break;
     case Game_type::DAME_CLASSIQUE:
         break;
@@ -46,8 +46,6 @@ int main(int argc, char **argv)
     Game game = Game();
     game.refresh();
 
-    Board b = Board(5, 5);
-    b.show();
     std::cout << "je suis la" << '\n';
     cout << "ça marche" << endl;
     return 0;
@@ -132,8 +130,8 @@ void Game::init_pawn(int pos)
 {
     for (int i = 0; i < Game::board.getWidth(); i++)
     {
-        Piece piece = Piece(true, Rank::PAWN, pos, i);
-        Game::board.getSquare(pos, i).setPiece(&piece);
+        Piece piece = Piece(true, Rank::PAWN, 0, i);
+        Game::board.setPiece(piece, 0, i);
     }
 }
 

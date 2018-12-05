@@ -7,7 +7,7 @@ Square::Square()
 Square::Square(Piece *piece, int x, int y)
 {
     // Square::color = color;
-    Piece p = Piece(piece->getColor(), piece->getRank());
+    Piece p = Piece(piece->getColor(), piece->getRank(), 0, 0);
     Square::piece = piece;
     Square::x = x;
     Square::y = y;
@@ -27,7 +27,7 @@ Piece *Square::getPiece()
 }
 void Square::setPiece(Piece *piece_bis)
 {
-    Piece p_tmp = Piece(piece_bis->getColor(), piece_bis->getRank());
+    Piece p_tmp = Piece(piece_bis->getColor(), piece_bis->getRank(), 0, 0);
     Square::piece = &p_tmp;
 }
 

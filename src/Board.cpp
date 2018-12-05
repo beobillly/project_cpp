@@ -34,19 +34,24 @@ void Board::show()
     }
 }
 
-Square Board::getSquare(int x, int y)
+Piece Board::getPiece(int x, int y)
 {
     return Board::board[x][y];
+}
+
+void Board::setPiece(Piece piece, int x, int y)
+{
+    Board::board[x][y] = piece;
 }
 
 /*Ca bug la dedans*/
 
 void Board::init()
 {
-    Board::board = new Square *[Board::height];
+    Board::board = new Piece *[Board::height];
     for (int i = 0; i < Board::height; i++)
     {
-        Board::board[i] = new Square[Board::width];
+        Board::board[i] = new Piece[Board::width];
     }
 
     for (int i = 0; i < Board::height; i++)
@@ -54,9 +59,8 @@ void Board::init()
         for (int j = 0; j < Board::width; j++)
         {
             bool b = j % 2 == 0;
-            Piece piece = Piece(b, Rank::KNIGHT);
-            Square square = Square(&piece, i, j);
-            Board::board[i][j].setPiece(&piece);
+            Piece piece = Piece(b, Rank::KNIGHT, i, j);
+            Board::board[i][j] = piece;
         }
     }
 }
