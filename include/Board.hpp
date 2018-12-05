@@ -1,6 +1,6 @@
 #ifndef BOARD
 #define BOARD
-#include "Square.hpp"
+#include "Piece.hpp"
 #include "Piece.hpp"
 #include "../src/Rank.cpp"
 #include <iostream>
@@ -20,13 +20,14 @@ public:
   int getWidth();
   int getHeight();
   void show();
-  Square getSquare(int x, int y);
+  Piece getPiece(int x, int y);
+  void setPiece(Piece piece, int x, int y);
   void init();
 
 private:
   int width;
   int height;
-  Square **board;
+  Piece **board;
 };
 
 #endif

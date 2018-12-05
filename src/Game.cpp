@@ -133,7 +133,7 @@ void Game::init_pawn(int pos)
     for (int i = 0; i < Game::board.getWidth(); i++)
     {
         Piece piece = Piece(true, Rank::PAWN);
-        Game::board.getSquare(pos, i).setPiece(&piece);
+        Game::board.setPiece(piece, 0, i);
     }
 }
 

@@ -15,11 +15,16 @@ public:
   ~Piece();
   bool getColor();
   Rank getRank();
+  void show();
   void promotion(Rank RANG, bool color);
+  int getPosX();
+  int getPosY();
 
 private:
   bool color;
   Rank rank;
+  int x;
+  int y;
 };
 
 #endif
