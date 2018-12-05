@@ -49,7 +49,7 @@ int main(int argc, char **argv)
     Board b = Board(5, 5);
     b.show();
     std::cout << "je suis la" << '\n';
-    cout << "ça marche ... pour le moment" << endl;
+    cout << "ça marche" << endl;
     return 0;
 }
 
@@ -132,7 +132,7 @@ void Game::init_pawn(int pos)
 {
     for (int i = 0; i < Game::board.getWidth(); i++)
     {
-        Piece piece = Piece(true, Rank::PAWN);
+        Piece piece = Piece(true, Rank::PAWN, pos, i);
         Game::board.getSquare(pos, i).setPiece(&piece);
     }
 }
