@@ -7,7 +7,7 @@ class Piece
 {
 public:
   Piece();
-  Piece(bool color, Rank rank);
+  Piece(bool color, Rank rank, int x, int y);
   Piece(Piece &&) = default;
   Piece(const Piece &) = default;
   Piece &operator=(Piece &&) = default;
