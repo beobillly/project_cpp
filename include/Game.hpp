@@ -16,8 +16,8 @@ public:
   Game_type ask_game_type();
   string ask_player_name();
   void refresh();
-  void init_pawn(int pos);
-  void init_strong(int pos);
+  void init_pawn(int pos, bool col);
+  void init_strong(int pos, bool col);
 
 private:
   Player player_white;

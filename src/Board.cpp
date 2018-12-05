@@ -59,7 +59,7 @@ void Board::init()
         for (int j = 0; j < Board::width; j++)
         {
             bool b = j % 2 == 0;
-            Piece piece = Piece(b, Rank::KNIGHT, i, j);
+            Piece piece = Piece(b, Rank::EMPTY, i, j);
             Board::board[i][j] = piece;
         }
     }

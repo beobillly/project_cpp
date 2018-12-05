@@ -59,13 +59,20 @@ void Piece::show()
         std::cout << " ";
         break;
     }
-    if (Piece::color)
+    if (Piece::rank != Rank::EMPTY)
     {
-        std::cout << "w";
+        if (Piece::color)
+        {
+            std::cout << "w";
+        }
+        else
+        {
+            std::cout << "b";
+        }
     }
     else
     {
-        std::cout << "b";
+        std::cout << " ";
     }
 }
 
