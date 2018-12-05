@@ -19,7 +19,7 @@ public:
   void init_pawn(int pos);
   void init_strong(int pos);
 
-private:
+protected:
   Player player_white;
   Player player_black;
   Board board;
