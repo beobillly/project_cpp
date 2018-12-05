@@ -32,16 +32,16 @@ vector<Piece> Player::getPieces() {
 	return pieces;
 }
 
-*Piece Player::getPiece(Rank r) {
-	if (numberOfRank(r) != 1) return nullptr;;
+Piece* Player::getPiece(Rank r) {
+	if (numberOfRank(r) != 1) return nullptr;
 	else {
 		for (int i = 0; i < pieces.size(); i++) {
-			if (pieces.at(i).getRank == r) return &piece.at(i);
+			if (pieces.at(i).getRank == r) return &(pieces.at(i));
 		}
 	}
 }
 
-*Piece Player::getPiece(Rank r, int x, int y) {
+Piece* Player::getPiece(Rank r, int x, int y) {
 
 }
 

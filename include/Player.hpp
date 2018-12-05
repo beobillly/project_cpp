@@ -2,8 +2,8 @@
 #define PLAYER
 #include <iostream>
 #include <string>
-#include "Piece.hpp"
 #include <vector>
+#include "Piece.hpp"
 
 using namespace std;
 
@@ -21,8 +21,8 @@ public:
 	int getScore();
 	bool getColor();
 	vector<Piece> getPieces();
-	*Piece getPiece(Rank r);
-	*Piece getPiece(Rank r, int x, int y);
+	Piece* getPiece(Rank r);
+	Piece* getPiece(Rank r, int x, int y);
 	int numberOfRank(Rank r); //return the number of pieces of the rank r
 
 protected:
