@@ -64,3 +64,11 @@ void Board::init()
         }
     }
 }
+
+void Board::movePiece(Piece* piece, int x, int y) {
+	int oldX = piece->getPosX();
+	int oldY = piece->getPosY();
+	board[oldX][oldY] = Piece(true, Rank::EMPTY, oldX, oldY);
+	board[x][y] = *piece;
+	piece->setPos(x, y);
+}

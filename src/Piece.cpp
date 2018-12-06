@@ -91,3 +91,8 @@ int Piece::getPosY()
 {
     return Piece::y;
 }
+
+void Piece::setPos(int x, int y) {
+	this->x = x;
+	this->y = y;
+}

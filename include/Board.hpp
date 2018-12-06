@@ -23,6 +23,7 @@ public:
   Piece getPiece(int x, int y);
   void setPiece(Piece piece, int x, int y);
   void init();
+  void movePiece(Piece* piece, int x, int y);
 
 private:
   int width;

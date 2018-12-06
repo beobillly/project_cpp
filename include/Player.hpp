@@ -20,10 +20,13 @@ public:
 	string getName();
 	int getScore();
 	bool getColor();
-	vector<Piece> getPieces();
+	//vector<Piece> getPieces();
 	Piece* getPiece(Rank r);
 	Piece* getPiece(Rank r, int x, int y);
-	int numberOfRank(Rank r); //return the number of pieces of the rank r
+	vector<Piece*> allOfRank(Rank r);
+	int nbOfPieces();
+	Piece* getFirstPiece();
+	Piece* getPawnOfFile(int x);
 
 protected:
 	string name;

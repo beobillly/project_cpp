@@ -19,6 +19,7 @@ public:
   void promotion(Rank RANG, bool color);
   int getPosX();
   int getPosY();
+  void setPos(int x, int y);
 
 private:
   bool color;
