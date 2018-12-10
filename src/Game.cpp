@@ -42,11 +42,11 @@ void Game::init()
 
 int main(int argc, char **argv)
 {
-    /*Game game = Game();
+    Game game = Game();
     game.refresh();
 
     std::cout << "je suis la" << '\n';
-    cout << "ça marche" << endl;*/
+    cout << "ça marche" << endl;
     return 0;
 }
 
