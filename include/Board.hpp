@@ -1,9 +1,9 @@
-#ifndef BOARD
-#define BOARD
 #include "Piece.hpp"
 #include "Piece.hpp"
 #include "../src/Rank.cpp"
 #include <iostream>
+#ifndef BOARD
+#define BOARD
 
 using namespace std;
 

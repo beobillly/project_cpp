@@ -1,4 +1,5 @@
 #include "../include/Chess.hpp"
+#include <fstream>
 
 using namespace std;
 
@@ -7,6 +8,8 @@ Chess::Chess() {
 }
 
 void Chess::Move(Player p) {
+	ofstream history;
+	history.open("../ history.txt");
 startLoop:
 	cout << "Please enter your move : " << endl;
 	string move("");
@@ -21,14 +24,12 @@ startLoop:
 			int y = move[1] - '1';
 			if (moveOnePiece(pawn, x, y)) break;
 		}
+		else goto invalid;
 	}
 	case 3:
 	{
 		if (move == "0-0") { //Castling kingside (right)
 			if (castling(true, p)) break;
-		}
-		else if (move == "0-0-0") { //Castling queenside (left)
-			if (castling(false, p)) break;
 		}
 		else {
 			Rank r = getRankFromChar(move[0]);
@@ -39,16 +40,27 @@ startLoop:
 					int x = letterToNumber(move[1]);
 					int y = move[2] - '1';
 					if (moveOnePiece(piece, x, y)) break;
+					else goto invalid;
 				}
+				else goto invalid;
 			}
+			else goto invalid;
 		}
 	}
 	case 4:
 		break;
+	case 5:
+		if (move == "0-0-0") { //Castling queenside (left)
+			if (castling(false, p)) break;
+		}
+		else goto invalid;
 	default:
+		invalid :
 		cout << "Invalid move" << endl;
 		goto startLoop;
 	}
+	history << move << endl;
+	history.close();
 }
 
 bool Chess::moveOnePiece(Piece* p, int x, int y) {
