@@ -39,7 +39,7 @@ Piece Board::getPiece(int x, int y)
     return Board::board[x][y];
 }
 
-void Board::setPiece(Piece piece, int x, int y)
+void Board::setPiece(Piece &piece, int x, int y)
 {
     Board::board[x][y] = piece;
 }
@@ -69,10 +69,10 @@ void Board::init()
     }
 }
 
-void Board::movePiece(Piece* piece, int x, int y) {
-	int oldX = piece->getPosX();
-	int oldY = piece->getPosY();
+void Board::movePiece(Piece &piece, int x, int y) {
+	int oldX = piece.getPosX();
+	int oldY = piece.getPosY();
 	removePiece(oldX, oldY);
-	board[x][y] = *piece;
-	piece->setPos(x, y);
+	board[x][y] = piece;
+	piece.setPos(x, y);
 }

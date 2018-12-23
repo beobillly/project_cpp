@@ -32,20 +32,20 @@ bool Player::getColor()
 	return pieces;
 }*/
 
-Piece* Player::getPiece(Rank r) {
-	vector<Piece*> piecesofRank = allOfRank(r);
-	if (piecesofRank.size() != 1) return nullptr;
+Piece Player::getPiece(Rank r) {
+	vector<Piece> piecesofRank = allOfRank(r);
+	if (piecesofRank.size() != 1) return Piece(true, Rank::EMPTY, 0, 0);
 	else return piecesofRank.at(0);
 }
 
-Piece* Player::getPiece(Rank r, int x, int y) {
+Piece Player::getPiece(Rank r, int x, int y) {
 
 }
 
-vector<Piece*> Player::allOfRank(Rank r) {
-	vector<Piece*> piecesofRank;
+vector<Piece> Player::allOfRank(Rank r) {
+	vector<Piece> piecesofRank;
 	for (int i = 0; i < pieces.size(); i++) {
-		if (pieces.at(i).getRank() == r) piecesofRank.push_back(&pieces.at(i));
+		if (pieces.at(i).getRank() == r) piecesofRank.push_back(pieces.at(i));
 	}
 	return piecesofRank;
 }
@@ -54,14 +54,15 @@ int Player::nbOfPieces() {
 	return pieces.size();
 }
 
-Piece* Player::getFirstPiece() {
-	return &pieces.at(0);
+Piece Player::getFirstPiece() {
+	return pieces.at(0);
 }
 
-Piece* Player::getPawnOfFile(int x) {
+Piece Player::getPawnOfFile(int x) {
+	if (x < 0 || x > 7) return Piece(true, Rank::EMPTY, 0, 0);
 	for (int i = 0; i < pieces.size(); i++) {
 		Piece piece = pieces.at(i);
-		if (piece.getRank() == Rank::PAWN && piece.getPosX() == x) return &piece;
+		if (piece.getRank() == Rank::PAWN && piece.getPosX() == x) return piece;
 	}
-	return nullptr;
+	return Piece(true, Rank::EMPTY, 0, 0);
 }

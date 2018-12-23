@@ -1,6 +1,7 @@
 #include "../include/Chess.hpp"
 #include "../include/Util.hpp"
 #include <fstream>
+#include <ctype.h>
 
 using namespace std;
 
@@ -8,10 +9,11 @@ Chess::Chess() {
 	this->game_type = Game_type::ECHEC;
 }
 
-void Chess::Move(Player p) {
+void Chess::Move(Player p, string path) {
 	ofstream history;
-	history.open("../ history.txt");
+	history.open(path);
 startLoop:
+	cout << p.getName << "'s turn" << endl;
 	cout << "Please enter your move : " << endl;
 	string move("");
 	cin >> move;
@@ -20,8 +22,8 @@ startLoop:
 	case 2: //pawn move
 	{
 		int x = letterToNumber(move[0]);
-		Piece* pawn = p.getPawnOfFile(x);
-		if (pawn != nullptr) {
+		Piece pawn = p.getPawnOfFile(x);
+		if (pawn.getRank() != Rank::EMPTY) {
 			int y = move[1] - '1';
 			if (moveOnePiece(pawn, x, y)) break;
 		}
@@ -33,14 +35,18 @@ startLoop:
 	case 3: //castling kingside + "regular move" + pawn promotion
 	{
 		if (move == "0-0") { //Castling kingside (right)
-			if (castling(true, p)) break;
+			if (castling(true, p)) break; 
+			else {
+				cout << "Invalid move"; 
+				goto startLoop;
+			}
 		}
 		else if (isMaj(move[2])) { //pawn promotion
 			int x = letterToNumber(move[0]);
-			Piece* pawn = p.getPawnOfFile(x);
-			if (pawn != nullptr) {
-				int oldX = pawn->getPosX();
-				int oldY = pawn->getPosY();
+			Piece pawn = p.getPawnOfFile(x);
+			if (pawn.getRank() != Rank::EMPTY) {
+				int oldX = pawn.getPosX();
+				int oldY = pawn.getPosY();
 				bool color = p.getColor();
 				if ((color && oldY != 6) || (!color && oldY != 1)) {
 					cout << "Invalid move : The pawn of file " << move[0] << " is not available for promotion" << endl;
@@ -75,7 +81,8 @@ startLoop:
 					goto startLoop;
 				}
 				else {
-					
+					board.movePiece(piece, x, y);
+					break;
 				}
 			}
 			else {
@@ -85,14 +92,58 @@ startLoop:
 		}
 	}
 	case 4: //move with capture or disambiguation
-		break;
-	case 5: //castling queenside
+		if (move[1] == 'x') { //Capture
+			Rank r = getRankFromChar(move[0]);
+			if (r != Rank::EMPTY) {
+				int x = letterToNumber(move[2]);
+				int y = move[3] - '1';
+				Piece piece = isMoveOk(r, board, p, x, y, true, -1, -1);
+				if (piece.getRank() == Rank::EMPTY) {
+					cout << "Invalid move : no piece found of rank " << move[0] << "able to go to " << move[1] << move[2] << endl;
+					goto startLoop;
+				}
+				else {
+					board.removePiece(x, y);
+					board.movePiece(piece, x, y);
+					break;
+				}
+			}
+			else {
+				cout << "Invalid move : unknown rank " << move[0];
+				goto startLoop;
+			}
+		}
+		else { // disambiguation
+			int oldX = -1;
+			int oldY = -1;
+			if (isdigit(move[1])) oldY = move[1] - '1';
+			else oldX = letterToNumber(move[1]);
+			Rank r = getRankFromChar(move[0]);
+			if (r != Rank::EMPTY) {
+				int x = letterToNumber(move[2]);
+				int y = move[3] - '1';
+				Piece piece = isMoveOk(r, board, p, x, y, true, oldX, oldY);
+				if (piece.getRank() == Rank::EMPTY) {
+					cout << "Invalid move : no piece found of rank " << move[0] << "able to go to " << move[1] << move[2] << endl;
+					goto startLoop;
+				}
+				else {
+					board.removePiece(x, y);
+					board.movePiece(piece, x, y);
+					break;
+				}
+			}
+			else {
+				cout << "Invalid move : unknown rank " << move[0];
+				goto startLoop;
+			}
+		}
+	case 5: //castling queenside + capture with disambiguation
 		if (move == "0-0-0") { //Castling queenside (left)
 			if (castling(false, p)) break;
 		}
-		else {
-			cout << "Invalid move : unkown move " << move << endl;
-			goto startLoop;
+		else { //Capture with disambiguation
+			
 		}
 	default:
 		cout << "Invalid move : unkown move " << move << endl;
@@ -102,7 +153,7 @@ startLoop:
 	history.close();
 }
 
-bool Chess::moveOnePiece(Piece* p, int x, int y) {
+bool Chess::moveOnePiece(Piece &p, int x, int y) {
 	if (coordOk(x, y)) {
 		board.movePiece(p, x, y);
 		return true;
@@ -138,19 +189,19 @@ bool Chess::castling(bool side, Player p) {
 	if (p.getColor) row = 0;
 	if (side) {
 		Piece king = board.getPiece(4, row);
-		moveOnePiece(&king, 6, row);
+		moveOnePiece(king, 6, row);
 		Piece rook = board.getPiece(7, row);
-		moveOnePiece(&rook, 5, row);
+		moveOnePiece(rook, 5, row);
 	}
 	else {
 		Piece king = board.getPiece(4, row);
-		moveOnePiece(&king, 2, row);
+		moveOnePiece(king, 2, row);
 		Piece rook = board.getPiece(0, row);
-		moveOnePiece(&rook, 3, row);
+		moveOnePiece(rook, 3, row);
 	}
 	return true;
 }
 
-Piece isMoveOk(Rank r, Board b, Player p, int x, int y, bool eat) { 
+Piece Chess::isMoveOk(Rank r, Board b, Player p, int x, int y, bool eat, int oldX, int oldY) {
 	return Piece(true, Rank::EMPTY, 0, 0); //a retourner en cas d'erreur
 }

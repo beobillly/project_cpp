@@ -21,12 +21,12 @@ public:
 	int getScore();
 	bool getColor();
 	//vector<Piece> getPieces();
-	Piece* getPiece(Rank r);
-	Piece* getPiece(Rank r, int x, int y);
-	vector<Piece*> allOfRank(Rank r);
+	Piece getPiece(Rank r);
+	Piece getPiece(Rank r, int x, int y);
+	vector<Piece> allOfRank(Rank r);
 	int nbOfPieces();
-	Piece* getFirstPiece();
-	Piece* getPawnOfFile(int x);
+	Piece getFirstPiece();
+	Piece getPawnOfFile(int x);
 
 protected:
 	string name;
