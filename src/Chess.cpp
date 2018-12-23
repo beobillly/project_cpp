@@ -1,4 +1,5 @@
 #include "../include/Chess.hpp"
+#include "../include/Util.hpp"
 #include <fstream>
 
 using namespace std;
@@ -16,7 +17,7 @@ startLoop:
 	cin >> move;
 	int length = move.length();
 	switch (length) {
-	case 2:
+	case 2: //pawn move
 	{
 		int x = letterToNumber(move[0]);
 		Piece* pawn = p.getPawnOfFile(x);
@@ -24,39 +25,77 @@ startLoop:
 			int y = move[1] - '1';
 			if (moveOnePiece(pawn, x, y)) break;
 		}
-		else goto invalid;
+		else {
+			cout << "Invalid move : No pawn found of that file" << endl;
+			goto startLoop;
+		}
 	}
-	case 3:
+	case 3: //castling kingside + "regular move" + pawn promotion
 	{
 		if (move == "0-0") { //Castling kingside (right)
 			if (castling(true, p)) break;
 		}
-		else {
+		else if (isMaj(move[2])) { //pawn promotion
+			int x = letterToNumber(move[0]);
+			Piece* pawn = p.getPawnOfFile(x);
+			if (pawn != nullptr) {
+				int oldX = pawn->getPosX();
+				int oldY = pawn->getPosY();
+				bool color = p.getColor();
+				if ((color && oldY != 6) || (!color && oldY != 1)) {
+					cout << "Invalid move : The pawn of file " << move[0] << " is not available for promotion" << endl;
+					goto startLoop;
+				}
+				board.removePiece(oldX, oldY);
+				Rank r = getRankFromChar(move[2]);
+				if (r == Rank::QUEEN || r == Rank::KNIGHT || r == Rank::ROOK || r == Rank::BISHOP) {
+					int newY = move[1] - '1';
+					Piece newPiece = Piece(color, r, oldX, newY);
+					board.setPiece(newPiece, oldX, newY);
+				}
+				else {
+					cout << "Invalid move : you cannot promote a pawn to rank " << move[2] << "." << endl;
+					cout << "Please choose one of the following : Q, N, R, B" << endl;
+					goto startLoop;
+				}
+			}
+			else {
+				cout << "Invalid move : No pawn found of that file" << endl;
+				goto startLoop;
+			}
+		}
+		else { //regular move
 			Rank r = getRankFromChar(move[0]);
 			if (r != Rank::EMPTY) {
-				vector<Piece*> pieces = p.allOfRank(r);
-				if (pieces.size() == 1) {
-					Piece * piece = pieces.at(0);
-					int x = letterToNumber(move[1]);
-					int y = move[2] - '1';
-					if (moveOnePiece(piece, x, y)) break;
-					else goto invalid;
+				int x = letterToNumber(move[1]);
+				int y = move[2] - '1';
+				Piece piece = isMoveOk(r, board, p, x, y, false);
+				if (piece.getRank() == Rank::EMPTY) {
+					cout << "Invalid move : no piece found of rank " << move[0] << "able to go to " << move[1] << move[2] << endl;
+					goto startLoop;
 				}
-				else goto invalid;
+				else {
+					
+				}
 			}
-			else goto invalid;
+			else {
+				cout << "Invalid move : unknown rank " << move[0];
+				goto startLoop; 
+			}
 		}
 	}
-	case 4:
+	case 4: //move with capture or disambiguation
 		break;
-	case 5:
+	case 5: //castling queenside
 		if (move == "0-0-0") { //Castling queenside (left)
 			if (castling(false, p)) break;
 		}
-		else goto invalid;
+		else {
+			cout << "Invalid move : unkown move " << move << endl;
+			goto startLoop;
+		}
 	default:
-		invalid :
-		cout << "Invalid move" << endl;
+		cout << "Invalid move : unkown move " << move << endl;
 		goto startLoop;
 	}
 	history << move << endl;
@@ -69,22 +108,6 @@ bool Chess::moveOnePiece(Piece* p, int x, int y) {
 		return true;
 	}
 	return false;
-}
-
-Rank Chess::getRankFromChar(char c) {
-	switch (c) {
-	case 'K': return Rank::KING;
-	case 'Q': return Rank::QUEEN;
-	case 'B': return Rank::BISHOP;
-	case 'N': return Rank::KNIGHT;
-	case 'R': return Rank::ROOK;
-	default: return Rank::EMPTY;
-	}
-}
-
-int Chess::letterToNumber(char c) {
-	if (int(c) > 96 && int(c) < 105) return int(c) - 97;
-	else return -1;
 }
 
 bool Chess::coordOk(int x, int y) {
@@ -126,4 +149,8 @@ bool Chess::castling(bool side, Player p) {
 		moveOnePiece(&rook, 3, row);
 	}
 	return true;
+}
+
+Piece isMoveOk(Rank r, Board b, Player p, int x, int y, bool eat) { 
+	return Piece(true, Rank::EMPTY, 0, 0); //a retourner en cas d'erreur
 }

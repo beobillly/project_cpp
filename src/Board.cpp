@@ -44,6 +44,10 @@ void Board::setPiece(Piece piece, int x, int y)
     Board::board[x][y] = piece;
 }
 
+void Board::removePiece(int x, int y) {
+	board[x][y] = Piece(true, Rank::EMPTY, x, y);
+}
+
 /*Ca bug la dedans*/
 
 void Board::init()
@@ -68,7 +72,7 @@ void Board::init()
 void Board::movePiece(Piece* piece, int x, int y) {
 	int oldX = piece->getPosX();
 	int oldY = piece->getPosY();
-	board[oldX][oldY] = Piece(true, Rank::EMPTY, oldX, oldY);
+	removePiece(oldX, oldY);
 	board[x][y] = *piece;
 	piece->setPos(x, y);
 }

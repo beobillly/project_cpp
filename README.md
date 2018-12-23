@@ -129,6 +129,16 @@ A faire :
 
 — La classe Launcher
 
+Billy : 
+	Piece isMoveOk(Rank r, Board b, Player p, int x, int y, bool eat) -> cherche une piece du joueur p de rang r qui peut se déplacer en [x][y]. Retourne piece de rang EMPTY si 0 ou 2 pieces trouvées.
+		! A verifier dans la fonction : le deplacement a la bonne forme, 
+										si eat = false la case d'arrivée est vide, 
+										si eat = true la case d'arrivée contient une piece de l'autre joueur, 
+										si r != Knight toutes les cases entre depart et arrivée sont vides,
+										si r = King ne le met pas en echec
+
+	bool isChecked(Player p, board b, int x, int y) -> retourne vrai si mettre le roi du joueur p en [x][y] le mettrai en echec
+
 
 ------------------------------------------------------------------------
 
