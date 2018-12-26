@@ -20,12 +20,15 @@ public:
   int getPosX();
   int getPosY();
   void setPos(int x, int y);
+  bool getInitialPos();
+  void setInitialPosToFalse();
 
 private:
   bool color;
   Rank rank;
   int x;
   int y;
+  bool isInitialPos;
 };
 
 #endif

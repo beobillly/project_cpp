@@ -10,6 +10,7 @@ Piece::Piece(bool color, Rank rank, int x, int y)
     this->rank = rank;
     this->x = x;
     this->y = y;
+    this->isInitialPos = true;
 }
 
 Piece::~Piece()
@@ -92,7 +93,18 @@ int Piece::getPosY()
     return Piece::y;
 }
 
-void Piece::setPos(int x, int y) {
-	this->x = x;
-	this->y = y;
+void Piece::setPos(int x, int y)
+{
+    this->x = x;
+    this->y = y;
+}
+
+bool Piece::getInitialPos()
+{
+    return Piece::isInitialPos;
+}
+
+void Piece::setInitialPosToFalse()
+{
+    Piece::isInitialPos = false;
 }
