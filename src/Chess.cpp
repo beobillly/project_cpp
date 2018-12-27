@@ -724,7 +724,27 @@ Piece Chess::isMoveOk(Rank r, Board b, Player p, int x, int y, bool eat, int old
 
 			break;
 		case Rank::KNIGHT:
-
+			/*cas L vertical*/
+			if (oldX - x == 1 || oldX - x == -1)
+			{
+				if (oldY - y != 2 && oldY - y != -2)
+				{
+					return Piece(true, Rank::EMPTY, 0, 0);
+				}
+			}
+			/*cas L horizontal*/
+			else if (oldX - x == 2 || oldX - x == -2)
+			{
+				if (oldY - y != 1 && oldY - y != -1)
+				{
+					return Piece(true, Rank::EMPTY, 0, 0);
+				}
+			}
+			/*cas autre*/
+			else
+			{
+				return Piece(true, Rank::EMPTY, 0, 0);
+			}
 			break;
 
 		default:
@@ -732,6 +752,7 @@ Piece Chess::isMoveOk(Rank r, Board b, Player p, int x, int y, bool eat, int old
 			break;
 		}
 	}
+	/*Et SI ENFIN tous les tests sont passés alors on renvoie la piece*/
 	return piece;
 }
 bool isChecked(Player p, Board b, int x, int y) //-> retourne vrai si mettre le roi du joueur p en [x][y] le mettrai en echec
