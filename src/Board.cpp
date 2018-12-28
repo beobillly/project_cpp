@@ -77,4 +77,5 @@ void Board::movePiece(Piece &piece, int x, int y)
     removePiece(oldX, oldY);
     board[x][y] = piece;
     piece.setPos(x, y);
+	piece.setInitialPosToFalse();
 }
