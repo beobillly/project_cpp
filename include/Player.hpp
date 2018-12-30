@@ -27,6 +27,7 @@ public:
 	int nbOfPieces();
 	Piece getFirstPiece();
 	Piece getPawnOfFile(int x);
+	void eatPiece(Piece &toEat);
 
 protected:
 	string name;
