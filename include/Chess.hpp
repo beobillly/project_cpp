@@ -25,6 +25,10 @@ private :
 	vector<tuple<int, int>> getPossibleKnightgMoves();
 	bool addRookOrBishopMove(int x, int y, bool eat, vector<tuple<int, int>> moves);
 	bool simulateMove(Piece toMove, int x, int y, bool eat, Player p);
+	bool queenOrRookCheck(bool color, int x, int y);
+	bool queenOrBishopCheck(bool color, int x, int y);
+	bool knightCheck(bool color, int x, int y);
+	bool pawnCheck(bool color, int x, int y);
 };
 
 #endif // !CHESS
