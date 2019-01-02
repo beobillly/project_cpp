@@ -66,7 +66,8 @@ Piece Player::getPawnOfFile(int x)
 	return Piece(true, Rank::EMPTY, 0, 0);
 }
 
-void Player::eatPiece(Piece &toEat) {
-	auto it = std::find(pieces.begin(), pieces.end(), toEat);
-	pieces.erase(it);
+void Player::eatPiece(Piece toEat) {
+    vector<Piece> newPieces;
+	for (Piece p: pieces) if (!(p.getPosX() == toEat.getPosX() && p.getPosY() == toEat.getPosY())) newPieces.push_back(p);
+	pieces = newPieces;
 }

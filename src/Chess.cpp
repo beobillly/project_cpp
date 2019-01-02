@@ -115,8 +115,7 @@ startLoop:
 				Piece piece = isMoveOk(Rank::PAWN, p, x, y, true, oldX, -1);
 				if (piece.getRank() == Rank::EMPTY) goto startLoop;
 				else {
-					otherPlayer.eatPiece(
-						board.getPiece(x, y));
+					otherPlayer.eatPiece(board.getPiece(x, y));
 					board.movePiece(piece, x, y);
 					break;
 				}
@@ -603,8 +602,8 @@ bool Chess::isChecked(Player p, int x, int y) //-> retourne vrai si mettre le ro
 {
 	bool color = p.getColor();
 	Piece king = p.allOfRank(Rank::KING).at(0);
-	int x = king.getPosX();
-	int y = king.getPosY();
+	int oldX = king.getPosX();
+	int oldY = king.getPosY();
 
 	//QUEEN AND ROOKS
 	/* UP */ for (int i = x - 1; i >= 0; i--) if (queenOrRookCheck(color, i, y)) return true;
@@ -616,30 +615,37 @@ bool Chess::isChecked(Player p, int x, int y) //-> retourne vrai si mettre le ro
 	/* UP LEFT */ 
 	for (int i = 1; i <= 7; i++) {
 		if (!coordOk(7, 7, x - i, y - i)) break;
-		if (queenOrBishopCheck(color, x - i, y - i)) return true;
+		if (queenOrBishopCheck(color, x - i, y - i)) goto check;
 	}
 	/* UP RIGHT */ 
 	for (int i = 1; i <= 7; i++) {
 		if (!coordOk(7, 7, x - i, y + i)) break;
-		if (queenOrBishopCheck(color, x - i, y + i)) return true;
+		if (queenOrBishopCheck(color, x - i, y + i)) goto check;
 	}
 	/* DOWN LEFT */ 
 	for (int i = 1; i <= 7; i++) {
 		if (!coordOk(7, 7, x + i, y - i)) break;
-		if (queenOrBishopCheck(color, x + i, y - i)) return true;
+		if (queenOrBishopCheck(color, x + i, y - i)) goto check;
 	}
 	/* DOWN RIGHT */ 
 	for (int i = 1; i <= 7; i++) {
 		if (!coordOk(7, 7, x + i, y + i)) break;
-		if (queenOrBishopCheck(color, x + i, y + i)) return true;
+		if (queenOrBishopCheck(color, x + i, y + i)) goto check;
 	}
 
 	//KNIGHT 
-	if (knightCheck(color, x, y)) return true;
+	if (knightCheck(color, x, y)) goto check;
 
 	//PAWN
-	return pawnCheck(color, x, y);
+	if (pawnCheck(color, x, y)) goto check;
 
+	check :
+        board.movePiece(king, oldX, oldY);
+	    return true;
+
+    not_check :
+        board.movePiece(king, oldX, oldY);
+        return false;
 }
 
 string Chess::getMoveNotation(Piece piece, int x, int y, bool eat, char rank) {
