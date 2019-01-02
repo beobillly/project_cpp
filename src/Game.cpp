@@ -31,8 +31,22 @@ void Game::init()
         init_pawn(Game::board.getHeight() - 2, false);
         break;
     case Game_type::DAME_CLASSIQUE:
+        init_pawn_(0, false, 1);
+        init_pawn_(1, false, 0);
+        init_pawn_(2, false, 1);
+        init_pawn_(3, false, 0);
+        init_pawn_(6, true, 1);
+        init_pawn_(7, true, 0);
+        init_pawn_(8, true, 1);
+        init_pawn_(9, true, 0);
         break;
     case Game_type::DAME_ANGLAISE:
+        init_pawn_(0, false, 1);
+        init_pawn_(1, false, 0);
+        init_pawn_(2, false, 1);
+        init_pawn_(7, true, 0);
+        init_pawn_(8, true, 1);
+        init_pawn_(9, true, 0);
         break;
 
     default:
@@ -153,4 +167,13 @@ void Game::init_strong(int pos, bool col)
     Game::board.setPiece(bishopr, pos, 5);
     Game::board.setPiece(knightr, pos, 6);
     Game::board.setPiece(rookr, pos, 7);
+}
+
+void Game::init_pawn_(int pos, bool col, int start)
+{
+    for (int i = start; i < Game::board.getWidth(); i = i + 2)
+    {
+        Piece piece = Piece(col, Rank::PAWN, pos, i);
+        Game::board.setPiece(piece, pos, i);
+    }
 }

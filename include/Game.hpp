@@ -18,6 +18,7 @@ public:
   void refresh();
   void init_pawn(int pos, bool col);
   void init_strong(int pos, bool col);
+  void init_pawn_(int pos, bool col, int start);
 
 protected:
   Player player_white;

@@ -115,7 +115,8 @@ startLoop:
 				Piece piece = isMoveOk(Rank::PAWN, p, x, y, true, oldX, -1);
 				if (piece.getRank() == Rank::EMPTY) goto startLoop;
 				else {
-					otherPlayer.eatPiece(board.getPiece(x, y));
+					otherPlayer.eatPiece(
+						board.getPiece(x, y));
 					board.movePiece(piece, x, y);
 					break;
 				}
