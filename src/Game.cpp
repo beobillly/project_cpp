@@ -9,6 +9,10 @@ Game::Game()
     this->player_black = p1;
     this->player_white = p2;
     int taille = 8;
+    if (gt == Game_type::DAME_CLASSIQUE)
+    {
+        taille = 10;
+    }
     Board board = Board(taille, taille);
     Game::board = board;
     init();
@@ -44,9 +48,9 @@ void Game::init()
         init_pawn_(0, false, 1);
         init_pawn_(1, false, 0);
         init_pawn_(2, false, 1);
+        init_pawn_(5, true, 0);
+        init_pawn_(6, true, 1);
         init_pawn_(7, true, 0);
-        init_pawn_(8, true, 1);
-        init_pawn_(9, true, 0);
         break;
 
     default:
