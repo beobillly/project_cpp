@@ -28,7 +28,8 @@ bool Player::getColor()
 	return Player::color;
 }
 
-vector<Piece> Player::getPieces() {
+vector<Piece> Player::getPieces()
+{
 	return pieces;
 }
 
@@ -66,7 +67,8 @@ Piece Player::getPawnOfFile(int x)
 	return Piece(true, Rank::EMPTY, 0, 0);
 }
 
-void Player::eatPiece(Piece &toEat) {
+void Player::eatPiece(Piece &toEat)
+{
 	auto it = std::find(pieces.begin(), pieces.end(), toEat);
 	pieces.erase(it);
 }
