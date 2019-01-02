@@ -28,21 +28,8 @@ bool Player::getColor()
 	return Player::color;
 }
 
-/*vector<Piece> Player::getPieces() {
+vector<Piece> Player::getPieces() {
 	return pieces;
-}*/
-
-Piece Player::getPiece(Rank r)
-{
-	vector<Piece> piecesofRank = allOfRank(r);
-	if (piecesofRank.size() != 1)
-		return Piece(true, Rank::EMPTY, 0, 0);
-	else
-		return piecesofRank.at(0);
-}
-
-Piece Player::getPiece(Rank r, int x, int y)
-{
 }
 
 vector<Piece> Player::allOfRank(Rank r)

@@ -29,6 +29,8 @@ private :
 	bool queenOrBishopCheck(bool color, int x, int y);
 	bool knightCheck(bool color, int x, int y);
 	bool pawnCheck(bool color, int x, int y);
+	void help(Player p);
+	string getMoveNotation(Piece piece, int x, int y, bool eat, char rank);
 };
 
 #endif // !CHESS

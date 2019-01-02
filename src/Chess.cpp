@@ -641,6 +641,61 @@ bool Chess::isChecked(Player p, int x, int y) //-> retourne vrai si mettre le ro
 
 }
 
+string Chess::getMoveNotation(Piece piece, int x, int y, bool eat, char rank) {
+	char fileFrom = piece.getPosX() + 1;
+	char rankFrom = piece.getPosY() + 1;
+	char fileDest = x + 1;
+	string move = "";
+	move += rank;
+	if (eat) {
+		move += 'x';
+	}
+	move += fileDest;
+	move += y + 1;
+	return move;
+}
+
+void Chess::help(Player p) {
+	vector<tuple<int, int>> movesWithEat;
+	vector<tuple<int, int>> movesWithoutEat;
+	for (Piece piece : p.getPieces()) {
+		char rank = '\0';
+		switch (piece.getRank()) {
+		case Rank::PAWN:
+			movesWithEat = getPawnMoves(piece, true);
+			movesWithoutEat = getPawnMoves(piece, false);
+			break;
+		case Rank::BISHOP:
+			rank = 'B';
+			movesWithEat = getBishopMoves(piece, true);
+			movesWithoutEat = getBishopMoves(piece, false);
+			break;
+		case Rank::KING:
+			rank = 'K';
+			movesWithEat = getKingMoves(piece, true);
+			movesWithoutEat = getKingMoves(piece, false);
+			break;
+		case Rank::KNIGHT:
+			rank = 'N';
+			movesWithEat = getKnightMoves(piece, true);
+			movesWithoutEat = getKnightMoves(piece, true);
+			break;
+		case Rank::QUEEN:
+			rank = 'Q';
+			movesWithEat = getQueenMoves(piece, true);
+			movesWithoutEat = getQueenMoves(piece, false);
+			break;
+		case Rank::ROOK:
+			rank = 'R';
+			movesWithEat = getRookMoves(piece, true);
+			movesWithoutEat = getRookMoves(piece, false);
+			break;
+		}
+		for (int i = 0; i < movesWithEat.size(); i++) cout << getMoveNotation(piece, get<0>(movesWithEat[i]), get<1>(movesWithEat[i]), true, rank) << endl;
+		for (int i = 0; i < movesWithoutEat.size(); i++) cout << getMoveNotation(piece, get<0>(movesWithEat[i]), get<1>(movesWithEat[i]), false, rank) << endl;
+	}
+}
+
 Piece isMoveOkOld(Rank r, Board b, Player p, int x, int y, bool eat, int oldX, int oldY)
 {
 	// Piece isMoveOk(Rank r, Board b, Player p, int x, int y, bool eat, int oldX, int oldY) -> cherche une piece du joueur p de rang r qui peut se déplacer en [x][y]. Retourne piece de rang EMPTY si 0 ou 2 pieces trouvées.

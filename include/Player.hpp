@@ -20,14 +20,12 @@ public:
 	string getName();
 	int getScore();
 	bool getColor();
-	//vector<Piece> getPieces();
-	Piece getPiece(Rank r);
-	Piece getPiece(Rank r, int x, int y);
 	vector<Piece> allOfRank(Rank r);
 	int nbOfPieces();
 	Piece getFirstPiece();
 	Piece getPawnOfFile(int x);
 	void eatPiece(Piece &toEat);
+	vector<Piece> getPieces();
 
 protected:
 	string name;
