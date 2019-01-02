@@ -11,6 +11,10 @@ using namespace std;
 Chess::Chess()
 {
 	this->game_type = Game_type::ECHEC;
+	int taille = 8;
+    Board board = Board(taille, taille);
+    this->board = board;
+    init();
 }
 
 void Chess::Move(Player p, string path)

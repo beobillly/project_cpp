@@ -2,20 +2,13 @@
 
 Game::Game()
 {
-    Game_type gt = Game::ask_game_type();
-    this->game_type = gt;
+    // Game_type gt = Game::ask_game_type();
+    // this->game_type = gt;
     Player p1 = Player(Game::ask_player_name(), false);
     Player p2 = Player(Game::ask_player_name(), true);
     this->player_black = p1;
     this->player_white = p2;
-    int taille = 8;
-    if (gt == Game_type::DAME_CLASSIQUE)
-    {
-        taille = 10;
-    }
-    Board board = Board(taille, taille);
-    Game::board = board;
-    init();
+    
 }
 
 Game::~Game()
@@ -54,78 +47,6 @@ void Game::init()
         break;
 
     default:
-        break;
-    }
-}
-
-int main(int argc, char **argv)
-{
-    Game game = Game();
-    game.refresh();
-
-    std::cout << "je suis la" << '\n';
-    cout << "ça marche" << endl;
-    return 0;
-}
-
-Game_type Game::ask_game_type()
-{
-    string name("");
-    bool ok_tmp = false;
-    int r = std::rand() % 3 + 1;
-    int res = 0;
-    while (!ok_tmp)
-    {
-        std::cout << "A quel jeu voulez vous jouer ?\n1 -> ECHEC\n2 -> DAME_CLASSIQUE\n3 -> DAME_ANGLAISE\n4 -> ALEATOIRE\n5 -> QUITTER" << '\n';
-
-        std::cin >> name;
-        try
-        {
-            res = std::stoi(name);
-            if (res < 1 || res > 5)
-            {
-                ok_tmp = false;
-                std::cout << "Vous n'avez pas rentré une valeur valide (1 - 2 - 3 - 4 - 5)\nVeuillez recommencer" << '\n';
-            }
-            else
-            {
-                ok_tmp = true;
-            }
-        }
-        catch (const std::exception &e)
-        {
-            std::cout << "Vous n'avez pas rentré une valeur valide (1 - 2 - 3 - 4 - 5)\nVeuillez recommencer" << '\n';
-        }
-    }
-
-    switch (res)
-    {
-
-    case 1:
-        return Game_type::ECHEC;
-    case 2:
-        return Game_type::DAME_CLASSIQUE;
-    case 3:
-        return Game_type::DAME_ANGLAISE;
-    case 4:
-        if (r == 1)
-        {
-            return Game_type::ECHEC;
-        }
-        else if (r == 2)
-        {
-            return Game_type::DAME_CLASSIQUE;
-        }
-        else
-        {
-            return Game_type::DAME_ANGLAISE;
-        }
-    case 5:
-        std::cout << "Bye" << '\n';
-        exit(0);
-
-    default:
-        return Game_type::EMPTY;
         break;
     }
 }
@@ -180,4 +101,22 @@ void Game::init_pawn_(int pos, bool col, int start)
         Piece piece = Piece(col, Rank::PAWN, pos, i);
         Game::board.setPiece(piece, pos, i);
     }
+}
+
+Board Game::getBoard()
+{
+    return board;
+}
+Player Game::getPlayerWhite()
+{
+    return player_white;
+}
+Player Game::getPlayerBlack()
+{
+    return player_black;
+}
+
+Game_type Game::getGameType()
+{
+    return game_type;
 }

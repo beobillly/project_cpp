@@ -6,19 +6,20 @@
 #include <vector>
 #include <algorithm>
 
-
 using namespace std;
 
 Draughts::Draughts()
 {
 }
 
-void Draughts::move(Player p, string path) {
+void Draughts::move(Player p, string path)
+{
     ofstream history;
     history.open(path);
     Player otherPlayer = player_black;
-    if (!p.getColor()) otherPlayer = player_white;
-    startLoop:
+    if (!p.getColor())
+        otherPlayer = player_white;
+startLoop:
     cout << p.getName() << "'s turn" << endl;
     cout << "Please enter your move : " << endl;
     string move("");

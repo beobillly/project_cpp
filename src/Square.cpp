@@ -2,6 +2,7 @@
 
 Square::Square()
 {
+    
 }
 
 Square::Square(Piece *piece, int x, int y)

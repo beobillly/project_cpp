@@ -19,6 +19,10 @@ public:
   void init_pawn(int pos, bool col);
   void init_strong(int pos, bool col);
   void init_pawn_(int pos, bool col, int start);
+  Game_type getGameType();
+  Board getBoard();
+  Player getPlayerWhite();
+  Player getPlayerBlack();
 
 protected:
   Player player_white;
