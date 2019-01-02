@@ -24,7 +24,7 @@ public:
 	int nbOfPieces();
 	Piece getFirstPiece();
 	Piece getPawnOfFile(int x);
-	void eatPiece(Piece &toEat);
+	void eatPiece(Piece toEat);
 	vector<Piece> getPieces();
 
 protected:
