@@ -17,7 +17,7 @@ Chess::Chess()
     init();
 }
 
-void Chess::Move(Player p, string path)
+void Chess::Move(Player &p, string path)
 {
 	ofstream history;
 	history.open(path);
@@ -30,6 +30,8 @@ startLoop:
 	string move("");
 	cin >> move;
 	int length = move.length();
+	cout << "length : " << length << endl;
+	cout << "nb of pieces :" << p.nbOfPieces() << endl;
 	switch (length)
 	{
 	case 2: //pawn move
@@ -107,7 +109,7 @@ startLoop:
 			}
 			else
 			{
-				cout << "Invalid move : unknown rank " << move[0];
+				cout << "Invalid move : unknown rank " << move[0] << endl;
 				goto startLoop;
 			}
 		}
@@ -148,7 +150,7 @@ startLoop:
 				}
 				else
 				{
-					cout << "Invalid move : unknown rank " << move[0];
+					cout << "Invalid move : unknown rank " << move[0] << endl;
 					goto startLoop;
 				}
 			}
@@ -177,7 +179,7 @@ startLoop:
 			}
 			else
 			{
-				cout << "Invalid move : unknown rank " << move[0];
+				cout << "Invalid move : unknown rank " << move[0] << endl;
 				goto startLoop;
 			}
 		}
@@ -214,7 +216,7 @@ startLoop:
 			}
 			else
 			{
-				cout << "Invalid move : unknown rank " << move[0];
+				cout << "Invalid move : unknown rank " << move[0] << endl;
 				goto startLoop;
 			}
 		}
@@ -238,7 +240,7 @@ startLoop:
 			}
 			else
 			{
-				cout << "Invalid move : unknown rank " << move[0];
+				cout << "Invalid move : unknown rank " << move[0] << endl;
 				goto startLoop;
 			}
 		}
@@ -266,7 +268,7 @@ startLoop:
 			}
 			else
 			{
-				cout << "Invalid move : unknown rank " << move[0];
+				cout << "Invalid move : unknown rank " << move[0] << endl;
 				goto startLoop;
 			}
 		}

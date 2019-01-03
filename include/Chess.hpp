@@ -9,7 +9,7 @@ class Chess : public Game
 	Chess(Player player_white,
 		  Player player_black,
 		  Board board);
-	void Move(Player p, string path);
+	void Move(Player &p, string path);
 
   private:
 	bool checkEat(bool eat, Player p, int x, int y);

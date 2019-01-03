@@ -44,7 +44,6 @@ int main(int argc, char **argv)
         chess.refresh();
         chess.Move(chess.getPlayerWhite(), "../history.txt");
         chess.Move(chess.getPlayerBlack(), "../history.txt");
-
     }
     else if (res == 2)
     {

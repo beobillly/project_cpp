@@ -26,7 +26,7 @@ public:
 	Piece getPawnOfFile(int x);
 	void eatPiece(Piece toEat);
 	vector<Piece> getPieces();
-
+	void addPiece (Piece &p);
 protected:
 	string name;
 	int score;

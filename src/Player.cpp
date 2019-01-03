@@ -8,6 +8,8 @@ Player::Player(string name, bool color)
 {
 	this->name = name;
 	this->color = color;
+	vector<Piece> vect;
+	this->pieces = vect;
 	this->score = 0;
 }
 
@@ -71,4 +73,13 @@ void Player::eatPiece(Piece toEat) {
     vector<Piece> newPieces;
 	for (Piece p: pieces) if (!(p.getPosX() == toEat.getPosX() && p.getPosY() == toEat.getPosY())) newPieces.push_back(p);
 	pieces = newPieces;
+}
+
+void Player::addPiece(Piece &p) {
+	auto it = pieces.end();
+	pieces.insert(it, p);
+	cout << "in add piece" << endl;
+	cout <<	"vect size : " << pieces.size() << endl;
+	cout << "for player : " << this->name << endl;
+	cout << "inserted piece : " << p.getRank() << endl;
 }

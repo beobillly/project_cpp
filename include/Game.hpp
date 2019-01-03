@@ -16,13 +16,13 @@ public:
   Game_type ask_game_type();
   string ask_player_name();
   void refresh();
-  void init_pawn(int pos, bool col);
-  void init_strong(int pos, bool col);
-  void init_pawn_(int pos, bool col, int start);
+  void init_pawn(int pos, Player &p);
+  void init_strong(int pos, Player &p);
+  void init_pawn_(int pos, Player &p, int start);
   Game_type getGameType();
   Board getBoard();
-  Player getPlayerWhite();
-  Player getPlayerBlack();
+  Player & getPlayerWhite();
+  Player & getPlayerBlack();
 
 protected:
   Player player_white;

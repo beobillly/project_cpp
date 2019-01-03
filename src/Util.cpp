@@ -1,13 +1,13 @@
 #include "../include/Util.hpp"
+#include <iostream>
+
+using namespace std;
 
 int letterToNumber(char c)
 {
-	if (int(c) > 64 && int(c) < 73)
-		return int(c) - 65;
-	if (int(c) > 96 && int(c) < 105)
-		return int(c) - 97;
-	else
-		return -1;
+	if (int(c) > 64 && int(c) < 73) return int(c) - 65;
+	else if (int(c) > 96 && int(c) < 105) return int(c) - 97;
+	else return -1;
 }
 
 Rank getRankFromChar(char c)
@@ -52,4 +52,8 @@ vector<string> split(string s, string delimiter){
 		s.erase(0, pos + delimiter.length());
 	}
 	return result;
+}
+
+void debug (string s){
+	cout << s << endl;
 }
