@@ -35,7 +35,8 @@ startLoop:
 	case 2: //pawn move
 	{
 		int y = letterToNumber(move[0]);
-		int x = move[1] - '1';
+		int x = '8' - move[1];
+		cout << "x : " << x << endl;
 		Piece pawn = isMoveOk(Rank::PAWN, p, x, y, false, -1, -1);
 		if (pawn.getRank() != Rank::EMPTY)
 		{
@@ -60,7 +61,7 @@ startLoop:
 		else if (isMaj(move[2]))
 		{ //pawn promotion
 			int y = letterToNumber(move[0]);
-			int x = move[1] - '1';
+			int x = '8' - move[1];
 			Piece pawn = isMoveOk(Rank::PAWN, p, x, y, false, -1, -1);
 			if (pawn.getRank() != Rank::EMPTY)
 			{
@@ -95,7 +96,7 @@ startLoop:
 			if (r != Rank::EMPTY)
 			{
 				int y = letterToNumber(move[1]);
-				int x = move[2] - '1';
+				int x = '8' - move[2];
 				Piece piece = isMoveOk(r, p, x, y, false, -1, -1);
 				if (piece.getRank() == Rank::EMPTY)
 					goto startLoop;
@@ -117,7 +118,7 @@ startLoop:
 		if (move[1] == 'x')
 		{ //Capture
 			int y = letterToNumber(move[2]);
-			int x = move[3] - '1';
+			int x = '8' - move[3];
 			if (isMin(move[0]))
 			{ //Pawn capture
 				int oldX = letterToNumber(move[0]);
@@ -158,14 +159,14 @@ startLoop:
 			int oldX = -1;
 			int oldY = -1;
 			if (isdigit(move[1]))
-				oldX = move[1] - '1';
+				oldX = '8' - move[1];
 			else
 				oldY = letterToNumber(move[1]);
 			Rank r = getRankFromChar(move[0]);
 			if (r != Rank::EMPTY)
 			{
 				int y = letterToNumber(move[2]);
-				int x = move[3] - '1';
+				int x = '8' - move[3];
 				Piece piece = isMoveOk(r, p, x, y, false, oldX, oldY);
 				if (piece.getRank() == Rank::EMPTY)
 					goto startLoop;
@@ -192,11 +193,11 @@ startLoop:
 		else if (move[2] == 'x')
 		{ //Capture with disambiguation
 			int y = letterToNumber(move[3]);
-			int x = move[4] - '1';
+			int x = '8' - move[4];
 			int oldX = -1;
 			int oldY = -1;
 			if (isdigit(move[1]))
-				oldX = move[1] - '1';
+				oldX = '8' - move[1];
 			else
 				oldY = letterToNumber(move[1]);
 			Rank r = getRankFromChar(move[0]);
@@ -221,9 +222,9 @@ startLoop:
 		else
 		{ //Double disambiguation
 			int y = letterToNumber(move[3]);
-			int x = move[4] - '1';
+			int x = '8' - move[4];
 			int oldY = letterToNumber(move[1]);
-			int oldX = move[2] - '1';
+			int oldX = '8' - move[2];
 			Rank r = getRankFromChar(move[0]);
 			if (r != Rank::EMPTY)
 			{
@@ -248,9 +249,9 @@ startLoop:
 		if (move[3] == 'x')
 		{
 			int y = letterToNumber(move[4]);
-			int x = move[5] - '1';
+			int x = '8' - move[5];
 			int oldY = letterToNumber(move[1]);
-			int oldX = move[2] - '1';
+			int oldX = '8' - move[2];
 			Rank r = getRankFromChar(move[0]);
 			if (r != Rank::EMPTY)
 			{
@@ -608,7 +609,6 @@ bool Chess::coordInVector(vector<tuple<int, int>> vec, int x, int y)
 Piece Chess::getRightPiece(Rank r, vector<Piece> &piecesToCheck, Player &p, int x, int y, bool eat)
 {
 	vector<Piece> okPieces;
-	cout << "in getRightPiece" << endl;
 	for (Piece piece : piecesToCheck)
 	{
 		vector<tuple<int, int>> possibleMoves;
