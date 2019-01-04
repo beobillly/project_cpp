@@ -5,6 +5,7 @@
 
 int main(int argc, char **argv)
 {
+    startLoop:
     string name("");
     bool ok_tmp = false;
     int r = std::rand() % 3 + 1;
@@ -40,12 +41,20 @@ int main(int argc, char **argv)
     {
         //ECHEC;
         Chess chess = Chess();
-        /*insert while loop here*/
-        chess.refresh();
-        chess.Move(chess.getPlayerWhite(), "../history.txt");
-        chess.refresh();
-        chess.Move(chess.getPlayerBlack(), "../history.txt");
-        chess.refresh();
+        while (true) {
+            chess.refresh();
+            chess.Move(chess.getPlayerWhite(), "../history.txt");
+            if (chess.checkMate(chess.getPlayerBlack())){
+                std::cout << chess.getPlayerWhite().getName() << " wins !" << endl;
+                goto gameOver;
+            }
+            chess.refresh();
+            chess.Move(chess.getPlayerBlack(), "../history.txt");
+            if (chess.checkMate(chess.getPlayerWhite())){
+                std::cout << chess.getPlayerBlack().getName() << " wins !" << endl;
+                goto gameOver;
+            }
+        }
     }
     else if (res == 2)
     {
@@ -61,7 +70,14 @@ int main(int argc, char **argv)
         exit(0);
     }
 
-    return 0;
+    gameOver :
+        std::cout << "Do you want to play again ? \n1 -> REPLAY \n2 -> EXIT" << endl;
+        string answer("");
+        std::cin >> answer;
+        int ans = std::stoi(answer);
+        if (ans == 1) goto startLoop;
+        else if (ans == 2) exit (0);
+        else goto gameOver;
 }
 
 #endif

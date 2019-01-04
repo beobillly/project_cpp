@@ -32,48 +32,36 @@ void Piece::show()
     switch (Piece::rank)
     {
     case Rank::KING:
-        std::cout << "K";
+        if (color) std::cout << "\u2654";
+        else std::cout << "\u265A";
         break;
     case Rank::QUEEN:
-        std::cout << "Q";
+        if (color) std::cout << "\u2655";
+        else std::cout << "\u265B";
         break;
     case Rank::KNIGHT:
-        std::cout << "T";
+        if (color) std::cout << "\u2658";
+        else std::cout << "\u265E";
         break;
     case Rank::BISHOP:
-        std::cout << "B";
+        if (color) std::cout << "\u2657";
+        else std::cout << "\u265D";
         break;
     case Rank::ROOK:
-        std::cout << "R";
+        if (color) std::cout << "\u2656";
+        else std::cout << "\u265C";
         break;
     case Rank::PAWN:
-        std::cout << "P";
+        if (color) std::cout << "\u2659";
+        else std::cout << "\u265F";
         break;
     case Rank::MAN:
-        std::cout << "x";
+        if (color) std::cout << "\u26C0";
+        else std::cout << "\u26C2";
         break;
     case Rank::EMPTY:
         std::cout << " ";
         break;
-
-    default:
-        std::cout << " ";
-        break;
-    }
-    if (Piece::rank != Rank::EMPTY)
-    {
-        if (Piece::color)
-        {
-            std::cout << "w";
-        }
-        else
-        {
-            std::cout << "b";
-        }
-    }
-    else
-    {
-        std::cout << " ";
     }
 }
 

@@ -2,13 +2,18 @@
 
 Game::Game()
 {
-    // Game_type gt = Game::ask_game_type();
-    // this->game_type = gt;
+    std::cout << "Do you want to play against the robot ? (Y/N) " << endl;
+    string answer ("");
+    std::cin >> answer;
     Player p1 = Player(Game::ask_player_name(), true);
-    Player p2 = Player(Game::ask_player_name(), false);
     this->player_white = p1;
-    this->player_black = p2;
-    
+    if (answer == "Y") {
+        this->player_black = Player("Robot", false);
+    }
+    else {
+        Player p2 = Player(Game::ask_player_name(), false);
+        this->player_black = p2;
+    }
 }
 
 Game::~Game()
