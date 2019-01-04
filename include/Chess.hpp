@@ -19,6 +19,7 @@ private:
 	vector<tuple<int, int>> getBishopMoves(Piece &p, bool eat);
 	vector<tuple<int, int>> getRookMoves(Piece &p, bool eat);
 	vector<tuple<int, int>> getPawnMoves(Piece &p, bool eat);
+	vector<tuple<int, int>> getMoves(Piece &p, bool eat);
 	bool castlingOk(bool side, Player &p);
 	bool castling(bool side, Player &p);
 	Piece isMoveOk(Rank r, Player &p, int x, int y, bool eat, int oldX, int oldY);
@@ -27,8 +28,8 @@ private:
 	vector<Piece> getPiecesToCheck(Rank r, Player p, int x, int y, int oldX, int oldY);
 	bool coordInVector(vector<tuple<int, int>> vec, int x, int y);
 	vector<tuple<int, int>> getPossibleKingMoves();
-	vector<tuple<int, int>> getPossibleKnightgMoves();
-	bool addRookOrBishopMove(int x, int y, bool eat, vector<tuple<int, int>> &moves);
+	vector<tuple<int, int>> getPossibleKnightMoves();
+	bool addRookOrBishopMove(int x, int y, bool eat, vector<tuple<int, int>> &moves, Piece &p);
 	bool simulateMove(Piece &toMove, int x, int y, bool eat, Player &p);
 	bool queenOrRookCheck(bool color, int x, int y);
 	bool queenOrBishopCheck(bool color, int x, int y);
@@ -36,6 +37,7 @@ private:
 	bool pawnCheck(bool color, int x, int y);
 	void help(Player p);
 	string getMoveNotation(Piece piece, int x, int y, bool eat, char rank);
+	void robotMove(Player robot, string path);
 };
 
 #endif // !CHESS

@@ -11,3 +11,4 @@ bool isMin(char c);
 bool coordOk(int height, int length, int x, int y);
 vector<string> split(string s, string delimiter);
 void debug (string s);
+char rankToChar(Rank r);

@@ -57,3 +57,14 @@ vector<string> split(string s, string delimiter){
 void debug (string s){
 	cout << s << endl;
 }
+
+char rankToChar(Rank r){
+    switch (r){
+        case Rank::KING: return 'K';
+        case Rank::PAWN: return '\0';
+        case Rank::ROOK: return 'R';
+        case Rank::BISHOP: return 'B';
+        case Rank::KNIGHT: return 'N';
+        case Rank::QUEEN: return 'Q';
+    }
+}

@@ -1,4 +1,5 @@
 #include "../include/Game.hpp"
+#include "../include/Bot.hpp"
 
 Game::Game()
 {
@@ -8,11 +9,10 @@ Game::Game()
     Player p1 = Player(Game::ask_player_name(), true);
     this->player_white = p1;
     if (answer == "Y") {
-        this->player_black = Player("Robot", false);
+        this->player_black = Bot();
     }
     else {
-        Player p2 = Player(Game::ask_player_name(), false);
-        this->player_black = p2;
+        this->player_black = Player(Game::ask_player_name(), false);
     }
 }
 

@@ -60,7 +60,7 @@ void Piece::show()
         else std::cout << "\u26C2";
         break;
     case Rank::EMPTY:
-        std::cout << " ";
+        std::cout << "\u2003";
         break;
     }
 }
@@ -73,12 +73,12 @@ void Piece::promotion(Rank RANG, bool color)
 
 int Piece::getPosX()
 {
-    return Piece::x;
+    return x;
 }
 
 int Piece::getPosY()
 {
-    return Piece::y;
+    return y;
 }
 
 void Piece::setPos(int x, int y)

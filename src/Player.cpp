@@ -78,8 +78,4 @@ void Player::eatPiece(Piece toEat) {
 void Player::addPiece(Piece &p) {
 	auto it = pieces.end();
 	pieces.insert(it, p);
-	cout << "in add piece" << endl;
-	cout <<	"vect size : " << pieces.size() << endl;
-	cout << "for player : " << this->name << endl;
-	cout << "inserted piece : " << p.getRank() << endl;
 }

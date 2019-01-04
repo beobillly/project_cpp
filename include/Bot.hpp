@@ -2,7 +2,7 @@
 #define BOT
 #include "Player.hpp"
 
-class Bot: Player
+class Bot: public Player
 {
 public:
     Bot();
@@ -11,9 +11,7 @@ public:
     Bot &operator=(Bot &&) = default;
     Bot &operator=(const Bot &) = default;
     ~Bot();
-
 private:
-    
 };
 
 #endif
