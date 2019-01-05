@@ -3,18 +3,6 @@
 #include "../include/Chess.hpp"
 #include "../include/Draughts.hpp"
 
-// TESTS ............................................
-
-void showPieces (Player p){
-    cout << p.getName() << " pieces : " << endl;
-    for (Piece piece : p.getPieces()){
-        char file = piece.getPosX() + 65;
-        cout << piece.getRank() << " " << file << 8 - piece.getPosY() << endl;
-    }
-}
-
-// END TESTS ........................................
-
 int main(int argc, char **argv)
 {
 startLoop:
@@ -56,8 +44,9 @@ startLoop:
         //TEST
         //showPieces(chess.getPlayerBlack());
         //showPieces(chess.getPlayerWhite());
+        chess.test();
         //TEST
-        while (true) {
+       while (true) {
             chess.refresh();
             chess.Move(chess.getPlayerWhite(), "../history.txt");
             if (chess.checkMate(chess.getPlayerBlack()))
@@ -73,6 +62,7 @@ startLoop:
                 goto gameOver;
             }
         }
+
     }
     else if (res == 2)
     {

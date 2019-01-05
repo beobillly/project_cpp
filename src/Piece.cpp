@@ -4,7 +4,7 @@ Piece::Piece()
 {
 }
 
-Piece::Piece(bool color, Rank rank, int y, int x)
+Piece::Piece(bool color, Rank rank, int x, int y)
 {
     this->color = color;
     this->rank = rank;

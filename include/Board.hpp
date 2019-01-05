@@ -20,7 +20,7 @@ public:
   int getWidth();
   int getHeight();
   void show();
-  Piece getPiece(int x, int y);
+  Piece& getPiece(int x, int y);
   void setPiece(Piece &piece, int x, int y);
   void removePiece(int x, int y);
   void init();

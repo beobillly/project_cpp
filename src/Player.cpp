@@ -69,7 +69,7 @@ Piece Player::getPawnOfFile(int x)
 	return Piece(true, Rank::EMPTY, 0, 0);
 }
 
-void Player::eatPiece(Piece toEat)
+void Player::eatPiece(Piece &toEat)
 {
 	vector<Piece> newPieces;
 	for (Piece p : pieces)

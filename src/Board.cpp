@@ -63,7 +63,7 @@ void Board::show()
     std::cout << "" << '\n';
 }
 
-Piece Board::getPiece(int x, int y)
+Piece& Board::getPiece(int x, int y)
 {
     return Board::board[x][y];
 }
@@ -102,7 +102,7 @@ void Board::movePiece(Piece &piece, int x, int y)
     int oldX = piece.getPosX();
     int oldY = piece.getPosY();
     removePiece(oldX, oldY);
-    board[x][y] = piece;
+    setPiece(piece, x, y);
     piece.setPos(x, y);
     piece.setInitialPosToFalse();
 }
