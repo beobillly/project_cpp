@@ -490,7 +490,7 @@ vector<tuple<int, int>> Chess::getKingMoves(Piece &p, bool eat)
 	int x = p.getPosX();
 	int y = p.getPosY();
 	vector<tuple<int, int>> kingMoves = getPossibleKingMoves();
-	for (int i = 0; i < kingMoves.size(); i++)
+	for (int i = 0; i < int(kingMoves.size()); i++)
 	{
 		auto it = possibleMoves.end();
 		int destX = x + get<0>(kingMoves[i]);
@@ -514,7 +514,7 @@ vector<tuple<int, int>> Chess::getKnightMoves(Piece &p, bool eat)
 	int x = p.getPosX();
 	int y = p.getPosY();
 	vector<tuple<int, int>> knightmoves = getPossibleKnightMoves();
-	for (int i = 0; i < knightmoves.size(); i++)
+	for (int i = 0; i < int(knightmoves.size()); i++)
 	{
 		auto it = possibleMoves.end();
 		int destX = x + get<0>(knightmoves[i]);
@@ -632,7 +632,7 @@ vector<tuple<int, int>> Chess::getMoves(Piece &p, bool eat)
 
 bool Chess::coordInVector(vector<tuple<int, int>> vec, int x, int y)
 {
-	for (int i = 0; i < vec.size(); i++)
+	for (int i = 0; i < int(vec.size()); i++)
 	{
 		if (get<0>(vec[i]) == x && get<1>(vec[i]) == y)
 			return true;
@@ -728,7 +728,7 @@ bool Chess::queenOrBishopCheck(bool color, int x, int y)
 bool Chess::knightCheck(bool color, int x, int y)
 {
 	vector<tuple<int, int>> possibleKnightSpots = getPossibleKnightMoves();
-	for (int i = 0; i < possibleKnightSpots.size(); i++)
+	for (int i = 0; i < int(possibleKnightSpots.size()); i++)
 	{
 		int newX = x + get<0>(possibleKnightSpots[i]);
 		int newY = y + get<1>(possibleKnightSpots[i]);
@@ -868,12 +868,12 @@ bool Chess::checkMate(Player p)
 		{
 			vector<tuple<int, int>> movesWithEat = getMoves(piece, true);
 			vector<tuple<int, int>> movesWithoutEat = getMoves(piece, false);
-			for (int i = 0; i < movesWithEat.size(); i++)
+			for (int i = 0; i < int(movesWithEat.size()); i++)
 			{
 				if (simulateMove(piece, get<0>(movesWithEat[i]), get<1>(movesWithEat[i]), true, p))
 					return false;
 			}
-			for (int i = 0; i < movesWithoutEat.size(); i++)
+			for (int i = 0; i < int(movesWithoutEat.size()); i++)
 				if (simulateMove(piece, get<0>(movesWithoutEat[i]), get<1>(movesWithoutEat[i]), false, p))
 					return false;
 		}
@@ -883,8 +883,8 @@ bool Chess::checkMate(Player p)
 
 string Chess::getMoveNotation(Piece piece, int x, int y, bool eat, char rank)
 {
-	char fileFrom = piece.getPosX() + 65;
-	char rankFrom = piece.getPosY() + 1;
+	// char fileFrom = piece.getPosX() + 65;
+	// char rankFrom = piece.getPosY() + 1;
 	char fileDest = x + 65;
 	string move = "";
 	move += rank;
@@ -905,9 +905,9 @@ void Chess::help(Player p)
 		vector<tuple<int, int>> movesWithEat = getMoves(piece, true);
 		vector<tuple<int, int>> movesWithoutEat = getMoves(piece, false);
 		char rank = rankToChar(piece.getRank());
-		for (int i = 0; i < movesWithEat.size(); i++)
+		for (int i = 0; i < int(movesWithEat.size()); i++)
 			cout << getMoveNotation(piece, get<0>(movesWithEat[i]), get<1>(movesWithEat[i]), true, rank) << endl;
-		for (int i = 0; i < movesWithoutEat.size(); i++)
+		for (int i = 0; i < int(movesWithoutEat.size()); i++)
 			cout << getMoveNotation(piece, get<0>(movesWithoutEat[i]), get<1>(movesWithoutEat[i]), false, rank) << endl;
 	}
 }
