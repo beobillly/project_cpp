@@ -933,7 +933,7 @@ Loop:
 	//
 	int randMove = std::rand() % (movesWithEat.size() + movesWithoutEat.size() - 1);
 	string move("");
-	if (randMove < movesWithEat.size())
+	if (randMove < int(movesWithEat.size()))
 	{
 		Player other = getPlayerWhite();
 		if (robot.getColor())
