@@ -58,11 +58,39 @@ int main(int argc, char **argv)
     }
     else if (res == 2)
     {
-        //DAME_CLASSIQUE;
+        Draughts draughts = Draughts(true);
+        while (true) {
+            draughts.refresh();
+            draughts.move(draughts.getPlayerWhite(), "../history.txt");
+            if (draughts.hasLost(draughts.getPlayerBlack())){
+                std::cout << draughts.getPlayerWhite().getName() << " wins !" << endl;
+                goto gameOver;
+            }
+            draughts.refresh();
+            draughts.move(draughts.getPlayerBlack(), "../history.txt");
+            if (draughts.hasLost(draughts.getPlayerWhite())){
+                std::cout << draughts.getPlayerBlack().getName() << " wins !" << endl;
+                goto gameOver;
+            }
+        }
     }
     else if (res == 3)
     {
-        //DAME_ANGLAISE;
+        Draughts draughts = Draughts(false);
+        while (true) {
+            draughts.refresh();
+            draughts.move(draughts.getPlayerWhite(), "../history.txt");
+            if (draughts.hasLost(draughts.getPlayerBlack())){
+                std::cout << draughts.getPlayerWhite().getName() << " wins !" << endl;
+                goto gameOver;
+            }
+            draughts.refresh();
+            draughts.move(draughts.getPlayerBlack(), "../history.txt");
+            if (draughts.hasLost(draughts.getPlayerWhite())){
+                std::cout << draughts.getPlayerBlack().getName() << " wins !" << endl;
+                goto gameOver;
+            }
+        }
     }
     else
     {
