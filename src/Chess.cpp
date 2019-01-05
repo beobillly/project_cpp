@@ -421,7 +421,6 @@ bool Chess::checkEat(bool eat, Player &p, int x, int y)
 	if (eat == false && toEat.getRank() != Rank::EMPTY)
 	{
 		char file = x + 65;
-		cout << "in checkeat \n piece on " << file << y << "is of color : " << toEat.getColor() << "and rank : " << toEat.getRank() << endl;
 		cout << "Invalid move : There is a piece on " << file << y + 1 << ". If you want to eat it, please add x after the rank" << endl;
 		;
 		return false;
@@ -495,7 +494,7 @@ vector<tuple<int, int>> Chess::getKingMoves(Piece &p, bool eat)
 		auto it = possibleMoves.end();
 		int destX = x + get<0>(kingMoves[i]);
 		int destY = y + get<1>(kingMoves[i]);
-		if (coordOk(7, 7, destX, destY) && ((eat && board.getPiece(destX, destY).getRank() != Rank::EMPTY) ||
+		if (coordOk(7, 7, destX, destY) && ((eat && board.getPiece(destX, destY).getRank() != Rank::EMPTY && board.getPiece(destX, destY).getColor() != p.getColor()) ||
 											(!eat && board.getPiece(destX, destY).getRank() == Rank::EMPTY)))
 			possibleMoves.insert(it, (make_tuple(destX, destY)));
 	}
@@ -519,7 +518,7 @@ vector<tuple<int, int>> Chess::getKnightMoves(Piece &p, bool eat)
 		auto it = possibleMoves.end();
 		int destX = x + get<0>(knightmoves[i]);
 		int destY = y + get<1>(knightmoves[i]);
-		if (coordOk(7, 7, destX, destY) && ((eat && board.getPiece(destX, destY).getRank() != Rank::EMPTY) ||
+		if (coordOk(7, 7, destX, destY) && ((eat && board.getPiece(destX, destY).getRank() != Rank::EMPTY && board.getPiece(destX, destY).getColor() != p.getColor()) ||
 											(!eat && board.getPiece(destX, destY).getRank() == Rank::EMPTY)))
 			possibleMoves.insert(it, (make_tuple(destX, destY)));
 	}
@@ -555,10 +554,10 @@ vector<tuple<int, int>> Chess::getRookMoves(Piece &p, bool eat)
 	/* RIGHT */ for (int i = y + 1; i <= 7; i++)
 		if (!addRookOrBishopMove(x, i, eat, possibleMoves, p))
 			break;
-	/* UP */ for (int i = x - 1; x >= 0; x--)
+	/* UP */ for (int i = x - 1; i >= 0; i--)
 		if (!addRookOrBishopMove(x, i, eat, possibleMoves, p))
 			break;
-	/* DOWN */ for (int i = x + 1; x <= 7; x++)
+	/* DOWN */ for (int i = x + 1; i <= 7; i++)
 		if (!addRookOrBishopMove(x, i, eat, possibleMoves, p))
 			break;
 	return possibleMoves;
@@ -601,10 +600,10 @@ vector<tuple<int, int>> Chess::getPawnMoves(Piece &p, bool eat)
 			possibleMoves.insert(it, (make_tuple(x + 2 * side, y)));
 	}
 	it = possibleMoves.end();
-	if (eat && coordOk(7, 7, x + side, y - 1) && board.getPiece(x + side, y - 1).getRank() != Rank::EMPTY)
+	if (eat && coordOk(7, 7, x + side, y - 1) && board.getPiece(x + side, y - 1).getRank() != Rank::EMPTY && board.getPiece(x + side, y-1).getColor() != p.getColor())
 		possibleMoves.insert(it, (make_tuple(x + side, y - 1)));
 	it = possibleMoves.end();
-	if (eat && coordOk(7, 7, x + side, y + 1) && y != 7 && board.getPiece(x + side, y + 1).getRank() != Rank::EMPTY)
+	if (eat && coordOk(7, 7, x + side, y + 1) && y != 7 && board.getPiece(x + side, y + 1).getRank() != Rank::EMPTY && board.getPiece(x + side, y+1).getColor() != p.getColor())
 		possibleMoves.insert(it, (make_tuple(x + side, y + 1)));
 	return possibleMoves;
 }
@@ -881,19 +880,16 @@ bool Chess::checkMate(Player p)
 	return true;
 }
 
-string Chess::getMoveNotation(Piece piece, int x, int y, bool eat, char rank)
+string Chess::getMoveNotation(Piece piece, int x, int y, bool eat)
 {
-	// char fileFrom = piece.getPosX() + 65;
-	// char rankFrom = piece.getPosY() + 1;
+	char rank = rankToChar(piece.getRank());
 	char fileDest = x + 65;
 	string move = "";
 	move += rank;
-	if (eat)
-	{
-		move += 'x';
-	}
+	if (eat) move += 'x';
 	move += fileDest;
-	move += y + 1;
+	int rankDest = 8 - y;
+	move += to_string(rankDest);
 	return move;
 }
 
@@ -904,11 +900,10 @@ void Chess::help(Player p)
 	{
 		vector<tuple<int, int>> movesWithEat = getMoves(piece, true);
 		vector<tuple<int, int>> movesWithoutEat = getMoves(piece, false);
-		char rank = rankToChar(piece.getRank());
-		for (int i = 0; i < int(movesWithEat.size()); i++)
-			cout << getMoveNotation(piece, get<0>(movesWithEat[i]), get<1>(movesWithEat[i]), true, rank) << endl;
-		for (int i = 0; i < int(movesWithoutEat.size()); i++)
-			cout << getMoveNotation(piece, get<0>(movesWithoutEat[i]), get<1>(movesWithoutEat[i]), false, rank) << endl;
+		for (int i = 0; i < movesWithEat.size(); i++)
+			cout << getMoveNotation(piece, get<0>(movesWithEat[i]), get<1>(movesWithEat[i]), true) << endl;
+		for (int i = 0; i < movesWithoutEat.size(); i++)
+			cout << getMoveNotation(piece, get<0>(movesWithoutEat[i]), get<1>(movesWithoutEat[i]), false) << endl;
 	}
 }
 
@@ -940,15 +935,17 @@ Loop:
 			other = getPlayerBlack();
 		int x = get<0>(movesWithEat[randMove]);
 		int y = get<1>(movesWithEat[randMove]);
+		if (!simulateMove(toMove, x, y, true, robot)) goto Loop;
 		Piece toEat = board.getPiece(x, y);
 		other.eatPiece(toEat);
 		board.movePiece(toMove, x, y);
-		move = getMoveNotation(toMove, x, y, true, rankToChar(toMove.getRank()));
-	}
-	else
-	{
-		board.movePiece(toMove, get<0>(movesWithoutEat[randMove]), get<1>(movesWithoutEat[randMove]));
-		move = getMoveNotation(toMove, get<0>(movesWithoutEat[randMove]), get<1>(movesWithoutEat[randMove]), false, rankToChar(toMove.getRank()));
+		move = getMoveNotation(toMove, x, y, true);
+	} else {
+		int x =  get<0>(movesWithoutEat[randMove]);
+		int y =  get<1>(movesWithoutEat[randMove]);
+		if (!simulateMove(toMove, x, y, false, robot)) goto Loop;
+		board.movePiece(toMove,x,y);
+		move = getMoveNotation(toMove, x, y, false);
 	}
 	history << move << endl;
 	history.close();

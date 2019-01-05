@@ -34,7 +34,7 @@ class Chess : public Game
 	bool knightCheck(bool color, int x, int y);
 	bool pawnCheck(bool color, int x, int y);
 	void help(Player p);
-	string getMoveNotation(Piece piece, int x, int y, bool eat, char rank);
+	string getMoveNotation(Piece piece, int x, int y, bool eat);
 	void robotMove(Player robot, string path);
 };
 
