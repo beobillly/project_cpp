@@ -69,9 +69,9 @@ void Piece::show()
         break;
     case Rank::MAN:
         if (color)
-            std::cout << "\u26C0";
-        else
             std::cout << "\u26C2";
+        else
+            std::cout << "\u26C0";
         break;
     case Rank::EMPTY:
         std::cout << "\u2003";

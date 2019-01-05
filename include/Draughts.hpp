@@ -21,6 +21,14 @@ private:
   string getMoveNotation(Piece piece, int x, int y, bool eat, char rank);
   int getLine(int pos);
   int getColumn(int pos);
+  bool isMoveOk(vector<int> positions, bool eat, Player p);
+  int taille;
+  vector<tuple<int, int>> getManMoves(Piece &p, bool eat);
+  vector<tuple<int, int>> getQueenMoves(Piece &p, bool eat);
+  bool addQueenMove(int x, int y, bool eat, vector<tuple<int, int>> &moves, Piece &p, int depart, int direction);
+  void addManMove(int x, int y, bool eat, vector<tuple<int, int>> &moves, Piece &p, int depart, int direction);
+  bool addQueenMoveNext(int x, int y, vector<tuple<int,int>> &moves, Piece &p);
+
 };
 
 #endif // !DRAUGHTS

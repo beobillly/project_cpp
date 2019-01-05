@@ -14,7 +14,6 @@ Draughts::Draughts()
 
 Draughts::Draughts(bool classique)
 {
-    int taille;
     if (classique)
     {
         this->game_type = Game_type::DAME_CLASSIQUE;
@@ -176,15 +175,6 @@ int Draughts::getColumn(int pos)
     }
 }
 
-bool Draughts::checkEat(bool eat, Player p, int x, int y) {}
-vector<tuple<int, int>> Draughts::getQueenMoves(Piece p, bool eat) {}
-vector<tuple<int, int>> Draughts::getPawnMoves(Piece p, bool eat) {}
-bool Draughts::coordInVector(vector<tuple<int, int>> vec, int x, int y) {}
-bool Draughts::simulateMove(Piece toMove, int x, int y, bool eat, Player p) {}
-bool Draughts::pawnCheck(bool color, int x, int y) {}
-void Draughts::help(Player p) {}
-string Draughts::getMoveNotation(Piece piece, int x, int y, bool eat, char rank) {}
-
 bool Draughts::hasLost(Player p)
 {
     if (p.getPieces().size() == 0)
@@ -192,4 +182,188 @@ bool Draughts::hasLost(Player p)
         return true;
     }
     return false;
+}
+
+bool Draughts::isMoveOk(vector<int> positions, bool eat, Player p)
+{
+    return true;
+}
+
+vector<tuple<int, int>> Draughts::getQueenMoves(Piece &p, bool eat)
+{
+    vector<tuple<int, int>> possibleMoves;
+    int x = p.getPosX();
+    int y = p.getPosY();
+    /* UP LEFT */ for (int i = 1; i <= taille - 1; i++)
+        if (!coordOk(taille - 1, taille - 1, x - i, y - i) || !addQueenMove(x - i, y - i, eat, possibleMoves, p, i, 1))
+            break;
+    /* UP RIGHT */ for (int i = 1; i <= taille - 1; i++)
+        if (!coordOk(taille - 1, taille - 1, x - i, y + i) || !addQueenMove(x - i, y + i, eat, possibleMoves, p, i, 2))
+            break;
+    /* DOWN LEFT */ for (int i = 1; i <= taille - 1; i++)
+        if (!coordOk(taille - 1, taille - 1, x + i, y - i) || !addQueenMove(x + i, y - i, eat, possibleMoves, p, i, 3))
+            break;
+    /* DOWN RIGHT */ for (int i = 1; i <= taille - 1; i++)
+        if (!coordOk(taille - 1, taille - 1, x + i, y + i) || !addQueenMove(x + i, y + i, eat, possibleMoves, p, i, 4))
+            break;
+    return possibleMoves;
+}
+/*
+direction : 1 -> UP LEFT
+            2 -> UP RIGHT
+            3 -> DOWN LEFT
+            4 -> DOWN RIGHT
+*/
+bool Draughts::addQueenMove(int x, int y, bool eat, vector<tuple<int, int>> &moves, Piece &p, int depart, int direction)
+{
+    bool squareHasPiece = board.getPiece(x, y).getRank() != Rank::EMPTY;
+    bool isOtherColor = board.getPiece(x, y).getColor() != p.getColor();
+
+    auto it = moves.end();
+    if ((!eat && !squareHasPiece) || (eat && !squareHasPiece))
+        moves.insert(it, (make_tuple(x, y)));
+    else if (!eat && squareHasPiece)
+        return false;
+    else if (eat && squareHasPiece && isOtherColor)
+    {
+        if (direction == 1)
+        {
+            /* UP LEFT */ for (int i = depart; i <= taille - 1; i++)
+                if (!coordOk(taille - 1, taille - 1, x - i, y - i) || !addQueenMoveNext(x - i, y - i, moves, p))
+                    break;
+        }
+        else if (direction == 2)
+        {
+            /* UP RIGHT */ for (int i = depart; i <= taille - 1; i++)
+                if (!coordOk(taille - 1, taille - 1, x - i, y + i) || !addQueenMoveNext(x - i, y + i, moves, p))
+                    break;
+        }
+        else if (direction == 3)
+        {
+            /* DOWN LEFT */ for (int i = depart; i <= taille - 1; i++)
+                if (!coordOk(taille - 1, taille - 1, x + i, y - i) || !addQueenMoveNext(x + i, y - i, moves, p))
+                    break;
+        }
+        else
+        {
+            /* DOWN RIGHT */ for (int i = depart; i <= taille - 1; i++)
+                if (!coordOk(taille - 1, taille - 1, x + i, y + i) || !addQueenMoveNext(x + i, y + i, moves, p))
+                    break;
+        }
+
+        return false;
+    }
+    return true;
+}
+
+bool Draughts::addQueenMoveNext(int x, int y, vector<tuple<int, int>> &moves, Piece &p)
+{
+    bool squareHasPiece = board.getPiece(x, y).getRank() != Rank::EMPTY;
+    bool isOtherColor = board.getPiece(x, y).getColor() != p.getColor();
+
+    auto it = moves.end();
+    if (!squareHasPiece)
+    {
+        moves.insert(it, (make_tuple(x, y)));
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+vector<tuple<int, int>> Draughts::getManMoves(Piece &p, bool eat)
+{
+    vector<tuple<int, int>> possibleMoves;
+    int x = p.getPosX();
+    int y = p.getPosY();
+    int i = 1;
+    /* UP LEFT */
+    if (!coordOk(taille - 1, taille - 1, x - i, y - i))
+        addManMove(x - i, y - i, eat, possibleMoves, p, i, 1);
+
+    /* UP RIGHT */
+    if (!coordOk(taille - 1, taille - 1, x - i, y + i))
+        addManMove(x - i, y + i, eat, possibleMoves, p, i, 2);
+
+    /* DOWN LEFT */
+    if (!coordOk(taille - 1, taille - 1, x + i, y - i))
+        addManMove(x + i, y - i, eat, possibleMoves, p, i, 3);
+
+    /* DOWN RIGHT */
+    if (!coordOk(taille - 1, taille - 1, x + i, y + i))
+        addManMove(x + i, y + i, eat, possibleMoves, p, i, 4);
+
+    return possibleMoves;
+}
+
+void Draughts::addManMove(int x, int y, bool eat, vector<tuple<int, int>> &moves, Piece &p, int depart, int direction)
+{
+    bool squareHasPiece = board.getPiece(x, y).getRank() != Rank::EMPTY;
+    bool isOtherColor = board.getPiece(x, y).getColor() != p.getColor();
+
+    auto it = moves.end();
+    {
+        if (direction == 1)
+        {
+            /* UP LEFT */
+            if ((!eat && !squareHasPiece && p.getColor()))
+                moves.insert(it, (make_tuple(x, y)));
+            else if (eat && squareHasPiece && isOtherColor && (p.getColor() || game_type == Game_type::DAME_CLASSIQUE))
+            {
+                if (coordOk(taille - 1, taille - 1, x - depart - 1, y - depart - 1) && board.getPiece(x - depart - 1, y - depart - 1).getRank() == Rank::EMPTY)
+                {
+                    it = moves.end();
+                    moves.insert(it, (make_tuple(x, y)));
+                }
+            }
+        }
+        else if (direction == 2)
+        {
+            /* UP RIGHT */
+            if ((!eat && !squareHasPiece && p.getColor()))
+                moves.insert(it, (make_tuple(x, y)));
+            else if (eat && squareHasPiece && isOtherColor && (p.getColor() || game_type == Game_type::DAME_CLASSIQUE))
+            {
+                if (!coordOk(taille - 1, taille - 1, x - depart - 1, y + depart + 1) && board.getPiece(x - depart - 1, y + depart + 1).getRank() == Rank::EMPTY)
+                {
+                    it = moves.end();
+                    moves.insert(it, (make_tuple(x, y)));
+                }
+            }
+        }
+        else if (direction == 3)
+        {
+            /* DOWN LEFT */
+            if ((!eat && !squareHasPiece && !p.getColor()))
+                moves.insert(it, (make_tuple(x, y)));
+            else if (eat && squareHasPiece && isOtherColor && (!p.getColor() || game_type == Game_type::DAME_CLASSIQUE))
+            {
+                if (!coordOk(taille - 1, taille - 1, x + depart + 1, y - depart - 1) && board.getPiece(x + depart + 1, y - depart - 1).getRank() == Rank::EMPTY)
+                {
+                    it = moves.end();
+                    moves.insert(it, (make_tuple(x, y)));
+                }
+            }
+        }
+        else
+        {
+            /* DOWN RIGHT */
+            if ((!eat && !squareHasPiece && !p.getColor()))
+                moves.insert(it, (make_tuple(x, y)));
+            else if (eat && squareHasPiece && isOtherColor && (!p.getColor() || game_type == Game_type::DAME_CLASSIQUE))
+            {
+                if (!coordOk(taille - 1, taille - 1, x + depart + 1, y + depart + 1) && board.getPiece(x + depart + 1, y + depart + 1).getRank() == Rank::EMPTY)
+                {
+                    it = moves.end();
+                    moves.insert(it, (make_tuple(x, y)));
+                }
+            }
+        }
+    }
+}
+
+void Draughts::help(Player p)
+{
 }
