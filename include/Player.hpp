@@ -9,7 +9,7 @@ using namespace std;
 
 class Player
 {
-public:
+  public:
 	Player();
 	Player(string name, bool color);
 	Player(Player &&) = default;
@@ -26,8 +26,9 @@ public:
 	Piece getPawnOfFile(int x);
 	void eatPiece(Piece toEat);
 	vector<Piece> getPieces();
-	void addPiece (Piece &p);
-protected:
+	void addPiece(Piece &p);
+
+  protected:
 	string name;
 	int score;
 	bool color;

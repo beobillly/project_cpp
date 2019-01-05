@@ -5,13 +5,11 @@
 class Chess : public Game
 {
   public:
-    Chess();
-	Chess(Player player_white,
-		  Player player_black,
-		  Board board);
+	Chess();
 	void Move(Player &p, string path);
-    bool checkMate(Player p);
-private:
+	bool checkMate(Player p);
+
+  private:
 	bool checkEat(bool eat, Player &p, int x, int y);
 	vector<tuple<int, int>> getKingMoves(Piece &p, bool eat);
 	vector<tuple<int, int>> getQueenMoves(Piece &p, bool eat);

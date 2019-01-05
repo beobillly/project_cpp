@@ -4,14 +4,16 @@
 Game::Game()
 {
     std::cout << "Do you want to play against the robot ? (Y/N) " << endl;
-    string answer ("");
+    string answer("");
     std::cin >> answer;
     Player p1 = Player(Game::ask_player_name(), true);
     this->player_white = p1;
-    if (answer == "Y") {
+    if (answer == "Y")
+    {
         this->player_black = Bot();
     }
-    else {
+    else
+    {
         this->player_black = Player(Game::ask_player_name(), false);
     }
 }
@@ -126,11 +128,11 @@ Board Game::getBoard()
 {
     return board;
 }
-Player & Game::getPlayerWhite()
+Player &Game::getPlayerWhite()
 {
     return player_white;
 }
-Player & Game::getPlayerBlack()
+Player &Game::getPlayerBlack()
 {
     return player_black;
 }

@@ -5,7 +5,7 @@
 
 int main(int argc, char **argv)
 {
-    startLoop:
+startLoop:
     string name("");
     bool ok_tmp = false;
     int r = std::rand() % 3 + 1;
@@ -41,16 +41,19 @@ int main(int argc, char **argv)
     {
         //ECHEC;
         Chess chess = Chess();
-        while (true) {
+        while (true)
+        {
             chess.refresh();
             chess.Move(chess.getPlayerWhite(), "../history.txt");
-            if (chess.checkMate(chess.getPlayerBlack())){
+            if (chess.checkMate(chess.getPlayerBlack()))
+            {
                 std::cout << chess.getPlayerWhite().getName() << " wins !" << endl;
                 goto gameOver;
             }
             chess.refresh();
             chess.Move(chess.getPlayerBlack(), "../history.txt");
-            if (chess.checkMate(chess.getPlayerWhite())){
+            if (chess.checkMate(chess.getPlayerWhite()))
+            {
                 std::cout << chess.getPlayerBlack().getName() << " wins !" << endl;
                 goto gameOver;
             }
@@ -59,16 +62,19 @@ int main(int argc, char **argv)
     else if (res == 2)
     {
         Draughts draughts = Draughts(true);
-        while (true) {
+        while (true)
+        {
             draughts.refresh();
             draughts.move(draughts.getPlayerWhite(), "../history.txt");
-            if (draughts.hasLost(draughts.getPlayerBlack())){
+            if (draughts.hasLost(draughts.getPlayerBlack()))
+            {
                 std::cout << draughts.getPlayerWhite().getName() << " wins !" << endl;
                 goto gameOver;
             }
             draughts.refresh();
             draughts.move(draughts.getPlayerBlack(), "../history.txt");
-            if (draughts.hasLost(draughts.getPlayerWhite())){
+            if (draughts.hasLost(draughts.getPlayerWhite()))
+            {
                 std::cout << draughts.getPlayerBlack().getName() << " wins !" << endl;
                 goto gameOver;
             }
@@ -77,16 +83,19 @@ int main(int argc, char **argv)
     else if (res == 3)
     {
         Draughts draughts = Draughts(false);
-        while (true) {
+        while (true)
+        {
             draughts.refresh();
             draughts.move(draughts.getPlayerWhite(), "../history.txt");
-            if (draughts.hasLost(draughts.getPlayerBlack())){
+            if (draughts.hasLost(draughts.getPlayerBlack()))
+            {
                 std::cout << draughts.getPlayerWhite().getName() << " wins !" << endl;
                 goto gameOver;
             }
             draughts.refresh();
             draughts.move(draughts.getPlayerBlack(), "../history.txt");
-            if (draughts.hasLost(draughts.getPlayerWhite())){
+            if (draughts.hasLost(draughts.getPlayerWhite()))
+            {
                 std::cout << draughts.getPlayerBlack().getName() << " wins !" << endl;
                 goto gameOver;
             }
@@ -98,14 +107,17 @@ int main(int argc, char **argv)
         exit(0);
     }
 
-    gameOver :
-        std::cout << "Do you want to play again ? \n1 -> REPLAY \n2 -> EXIT" << endl;
-        string answer("");
-        std::cin >> answer;
-        int ans = std::stoi(answer);
-        if (ans == 1) goto startLoop;
-        else if (ans == 2) exit (0);
-        else goto gameOver;
+gameOver:
+    std::cout << "Do you want to play again ? \n1 -> REPLAY \n2 -> EXIT" << endl;
+    string answer("");
+    std::cin >> answer;
+    int ans = std::stoi(answer);
+    if (ans == 1)
+        goto startLoop;
+    else if (ans == 2)
+        exit(0);
+    else
+        goto gameOver;
 }
 
 #endif

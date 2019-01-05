@@ -69,13 +69,17 @@ Piece Player::getPawnOfFile(int x)
 	return Piece(true, Rank::EMPTY, 0, 0);
 }
 
-void Player::eatPiece(Piece toEat) {
-    vector<Piece> newPieces;
-	for (Piece p: pieces) if (!(p.getPosX() == toEat.getPosX() && p.getPosY() == toEat.getPosY())) newPieces.push_back(p);
+void Player::eatPiece(Piece toEat)
+{
+	vector<Piece> newPieces;
+	for (Piece p : pieces)
+		if (!(p.getPosX() == toEat.getPosX() && p.getPosY() == toEat.getPosY()))
+			newPieces.push_back(p);
 	pieces = newPieces;
 }
 
-void Player::addPiece(Piece &p) {
+void Player::addPiece(Piece &p)
+{
 	auto it = pieces.end();
 	pieces.insert(it, p);
 }

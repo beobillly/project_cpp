@@ -24,33 +24,31 @@ int Board::getHeight()
 
 void Board::show()
 {
-    std::cout << "   " ;
+    std::cout << "   ";
     for (int j = 0; j < Board::width; j++)
-        { 
-            std::cout << char(j+97) << " ";   
-        }
-        std::cout << "" << '\n';
+    {
+        std::cout << char(j + 97) << " ";
+    }
+    std::cout << "" << '\n';
     for (int i = 0; i < Board::height; i++)
     {
         std::cout << i;
-        std::cout << "  " ;
+        std::cout << "  ";
         for (int j = 0; j < Board::width; j++)
         {
             Board::board[i][j].show();
-            std::cout << " " ;
-
+            std::cout << " ";
         }
-        std::cout << "  " ;
-        std::cout << i ;
+        std::cout << "  ";
+        std::cout << i;
         std::cout << "" << '\n';
     }
-    std::cout << "   " ;
+    std::cout << "   ";
     for (int j = 0; j < Board::width; j++)
-        { 
-            std::cout << char(j+97) << " ";   
-        }
-        std::cout << "" << '\n';
-    
+    {
+        std::cout << char(j + 97) << " ";
+    }
+    std::cout << "" << '\n';
 }
 
 Piece Board::getPiece(int x, int y)
@@ -67,8 +65,6 @@ void Board::removePiece(int x, int y)
 {
     board[x][y] = Piece(true, Rank::EMPTY, x, y);
 }
-
-
 
 void Board::init()
 {
@@ -96,5 +92,5 @@ void Board::movePiece(Piece &piece, int x, int y)
     removePiece(oldX, oldY);
     board[x][y] = piece;
     piece.setPos(x, y);
-	piece.setInitialPosToFalse();
+    piece.setInitialPosToFalse();
 }

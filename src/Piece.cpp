@@ -32,32 +32,46 @@ void Piece::show()
     switch (Piece::rank)
     {
     case Rank::KING:
-        if (color) std::cout << "\u2654";
-        else std::cout << "\u265A";
+        if (color)
+            std::cout << "\u2654";
+        else
+            std::cout << "\u265A";
         break;
     case Rank::QUEEN:
-        if (color) std::cout << "\u2655";
-        else std::cout << "\u265B";
+        if (color)
+            std::cout << "\u2655";
+        else
+            std::cout << "\u265B";
         break;
     case Rank::KNIGHT:
-        if (color) std::cout << "\u2658";
-        else std::cout << "\u265E";
+        if (color)
+            std::cout << "\u2658";
+        else
+            std::cout << "\u265E";
         break;
     case Rank::BISHOP:
-        if (color) std::cout << "\u2657";
-        else std::cout << "\u265D";
+        if (color)
+            std::cout << "\u2657";
+        else
+            std::cout << "\u265D";
         break;
     case Rank::ROOK:
-        if (color) std::cout << "\u2656";
-        else std::cout << "\u265C";
+        if (color)
+            std::cout << "\u2656";
+        else
+            std::cout << "\u265C";
         break;
     case Rank::PAWN:
-        if (color) std::cout << "\u2659";
-        else std::cout << "\u265F";
+        if (color)
+            std::cout << "\u2659";
+        else
+            std::cout << "\u265F";
         break;
     case Rank::MAN:
-        if (color) std::cout << "\u26C0";
-        else std::cout << "\u26C2";
+        if (color)
+            std::cout << "\u26C0";
+        else
+            std::cout << "\u26C2";
         break;
     case Rank::EMPTY:
         std::cout << "\u2003";
