@@ -24,25 +24,37 @@ int Board::getHeight()
 
 void Board::show()
 {
+    int marge;
     std::cout << "   ";
     for (int j = 0; j < Board::width; j++)
     {
         std::cout << char(j + 97) << " ";
     }
     std::cout << "" << '\n';
+    std::cout << "" << '\n';
     for (int i = 0; i < Board::height; i++)
     {
-        std::cout << i;
-        std::cout << "  ";
+        marge = height - i;
+        std::cout << marge;
+        if (marge > 9)
+        {
+            std::cout << " ";
+        }
+        else
+        {
+            std::cout << "  ";
+        }
+
         for (int j = 0; j < Board::width; j++)
         {
             Board::board[i][j].show();
             std::cout << " ";
         }
         std::cout << "  ";
-        std::cout << i;
+        std::cout << height - i;
         std::cout << "" << '\n';
     }
+    std::cout << "" << '\n';
     std::cout << "   ";
     for (int j = 0; j < Board::width; j++)
     {

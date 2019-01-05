@@ -21,7 +21,6 @@ private:
   string getMoveNotation(Piece piece, int x, int y, bool eat, char rank);
   int getLine(int pos);
   int getColumn(int pos);
-  bool classique;
 };
 
 #endif // !DRAUGHTS

@@ -35,22 +35,22 @@ void Game::init()
         init_pawn(Game::board.getHeight() - 2, player_black);
         break;
     case Game_type::DAME_CLASSIQUE:
-        init_pawn_(0, player_black, 1);
-        init_pawn_(1, player_black, 0);
-        init_pawn_(2, player_black, 1);
-        init_pawn_(3, player_black, 0);
-        init_pawn_(6, player_white, 1);
-        init_pawn_(7, player_white, 0);
-        init_pawn_(8, player_white, 1);
-        init_pawn_(9, player_white, 0);
+        init_man(0, player_black, 1);
+        init_man(1, player_black, 0);
+        init_man(2, player_black, 1);
+        init_man(3, player_black, 0);
+        init_man(6, player_white, 1);
+        init_man(7, player_white, 0);
+        init_man(8, player_white, 1);
+        init_man(9, player_white, 0);
         break;
     case Game_type::DAME_ANGLAISE:
-        init_pawn_(0, player_black, 1);
-        init_pawn_(1, player_black, 0);
-        init_pawn_(2, player_black, 1);
-        init_pawn_(5, player_white, 0);
-        init_pawn_(6, player_white, 1);
-        init_pawn_(7, player_white, 0);
+        init_man(0, player_black, 1);
+        init_man(1, player_black, 0);
+        init_man(2, player_black, 1);
+        init_man(5, player_white, 0);
+        init_man(6, player_white, 1);
+        init_man(7, player_white, 0);
         break;
 
     default:
@@ -113,12 +113,12 @@ void Game::init_strong(int pos, Player &p)
     p.addPiece(rookr);
 }
 
-void Game::init_pawn_(int pos, Player &p, int start)
+void Game::init_man(int pos, Player &p, int start)
 {
     bool col = p.getColor();
     for (int i = start; i < Game::board.getWidth(); i = i + 2)
     {
-        Piece piece = Piece(col, Rank::PAWN, pos, i);
+        Piece piece = Piece(col, Rank::MAN, pos, i);
         Game::board.setPiece(piece, pos, i);
         p.addPiece(piece);
     }

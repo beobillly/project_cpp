@@ -14,7 +14,20 @@ Draughts::Draughts()
 
 Draughts::Draughts(bool classique)
 {
-    this->classique = classique;
+    int taille;
+    if (classique)
+    {
+        this->game_type = Game_type::DAME_CLASSIQUE;
+        taille = 10;
+    }
+    else
+    {
+        this->game_type = Game_type::DAME_ANGLAISE;
+        taille = 8;
+    }
+    Board board = Board(taille, taille);
+    this->board = board;
+    init();
 }
 
 void Draughts::move(Player p, string path)

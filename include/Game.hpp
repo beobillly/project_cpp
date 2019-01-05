@@ -18,7 +18,7 @@ public:
   void refresh();
   void init_pawn(int pos, Player &p);
   void init_strong(int pos, Player &p);
-  void init_pawn_(int pos, Player &p, int start);
+  void init_man(int pos, Player &p, int start);
   Game_type getGameType();
   Board getBoard();
   Player & getPlayerWhite();
