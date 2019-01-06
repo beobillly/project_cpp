@@ -26,7 +26,6 @@ void Chess::Move(Player &p, string path)
 		robotMove(p, path);
 		return;
 	}
-	showPieces(p);
 	ofstream history;
 	history.open(path);
 	Player otherPlayer = player_black;
