@@ -52,7 +52,7 @@ startLoop:
     
     for(int i = 0;i < int(splitMove.size());i++)
     {
-    std::cout << splitMove.at(i) << " ";        
+    std::cout << splitMove.at(i) << "\n";        
     }
     std::cout << "" << '\n';        
 
