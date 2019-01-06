@@ -49,12 +49,13 @@ startLoop:
         splitMove = splitString(move, 'x');
     else
         splitMove = splitString(move, '-');
-
-    /*test*/
-    for (int i = 0; i < int(splitMove.size()); i++)
+    
+    for(int i = 0;i < int(splitMove.size());i++)
     {
-        std::cout << splitMove.at(i) << '\n';
+    std::cout << splitMove.at(i) << " ";        
     }
+    std::cout << "" << '\n';        
+
     if (int(splitMove.size()) < 2)
     {
         cout << "Invalid move : not enough information" << endl;
@@ -86,12 +87,10 @@ startLoop:
         goto startLoop;
     }
     vector<int> moves;
-    auto it = moves.end();
 
-    for (int i = 0; i < int(moves.size()); i++)
+    for (int i = 0; i < int(splitMove.size()); i++)
     {
-        it = moves.end();
-        moves.insert(it, std::stoi(splitMove.at(i)));
+        moves.insert(moves.end(), stoi(splitMove.at(i)));
     }
 
     if (isMoveOk(moves, eat, piece))
@@ -100,6 +99,8 @@ startLoop:
         int destLine = getLine(destPos);
         int destColumn = getColumn(destPos);
         piece.setPos(destLine, destColumn);
+        board.setPiece(piece, destLine, destColumn);
+        board.removePiece(line, column);
         refresh();
     }
 
@@ -192,7 +193,7 @@ bool Draughts::isMoveOk(vector<int> positions, bool eat, Piece &p)
         pos = positions.at(i);
         line = getLine(pos);
         column = getColumn(pos);
-        if (!coordOk(7, 7, column, line))
+        if (!coordOk(7, 7, line, column))
         { //Si les coordonnées x et/ou y sont en dehors du tableau
             char file = column + 65;
             cout << "Invalid move : " << file << line + 1 << " is out of bounds" << endl;
@@ -220,19 +221,22 @@ bool Draughts::isMoveOk(vector<int> positions, bool eat, Piece &p)
     Iline = getLine(Ipos);
     Icolumn = getColumn(Ipos);
 
-    tuple<int, int> t = make_tuple(column, line);
+    tuple<int, int> t = make_tuple(line, column);
 
     if (!eat && p.getRank() == Rank::MAN)
     {
         vector<tuple<int, int>> moves = getManMoves(p, eat, Iline, Icolumn);
+        std::cout << "moves.size() = " << moves.size() << '\n';
         for (int i = 0; i < int(moves.size()); i++)
         {
+            std::cout << "t(0) = " << std::get<0>(t);
+            std::cout << "et t(1) = " << std::get<1>(t) << '\n';
             if (moves.at(i) == t)
             {
                 return true;
             }
         }
-        std::cout << "Invalid move : " << Ipos << "x" << pos << " is not a possible move" << '\n';
+        std::cout << "Invalid move : " << Ipos << "-" << pos << " is not a possible move" << '\n';
         return false;
     }
 
@@ -246,7 +250,7 @@ bool Draughts::isMoveOk(vector<int> positions, bool eat, Piece &p)
                 return true;
             }
         }
-        std::cout << "Invalid move : " << Ipos << "x" << pos << " is not a possible move" << '\n';
+        std::cout << "Invalid move : " << Ipos << "-" << pos << " is not a possible move" << '\n';
         return false;
     }
 
@@ -262,7 +266,7 @@ bool Draughts::isMoveOk(vector<int> positions, bool eat, Piece &p)
             Iline = getLine(Ipos);
             Icolumn = getColumn(Ipos);
 
-            t = make_tuple(column, line);
+            t = make_tuple(line, column);
             moves = getQueenMoves(p, eat, Iline, Icolumn);
             bool isok = false;
             for (int i = 0; i < int(moves.size()); i++)
@@ -293,7 +297,7 @@ bool Draughts::isMoveOk(vector<int> positions, bool eat, Piece &p)
             Iline = getLine(Ipos);
             Icolumn = getColumn(Ipos);
 
-            t = make_tuple(column, line);
+            t = make_tuple(line, column);
             moves = getManMoves(p, eat, Iline, Icolumn);
             bool isok = false;
             for (int i = 0; i < int(moves.size()); i++)
@@ -403,22 +407,34 @@ vector<tuple<int, int>> Draughts::getManMoves(Piece &p, bool eat, int x, int y)
     vector<tuple<int, int>> possibleMoves;
 
     int i = 1;
+
+    std::cout << "position x : " << x << "  position y : " << y << '\n';
+
     /* UP LEFT */
-    if (!coordOk(taille - 1, taille - 1, x - i, y - i))
+    if (coordOk(taille - 1, taille - 1, x - i, y - i))
+    {
+        std::cout << "on test UP left" << '\n';
         addManMove(x - i, y - i, eat, possibleMoves, p, i, 1);
+    }
 
     /* UP RIGHT */
-    if (!coordOk(taille - 1, taille - 1, x - i, y + i))
+    if (coordOk(taille - 1, taille - 1, x - i, y + i))
+    {
+        std::cout << "on test UP right" << '\n';
         addManMove(x - i, y + i, eat, possibleMoves, p, i, 2);
-
+    }
     /* DOWN LEFT */
-    if (!coordOk(taille - 1, taille - 1, x + i, y - i))
+    if (coordOk(taille - 1, taille - 1, x + i, y - i))
+    {
+        std::cout << "on test Down left" << '\n';
         addManMove(x + i, y - i, eat, possibleMoves, p, i, 3);
-
+    }
     /* DOWN RIGHT */
-    if (!coordOk(taille - 1, taille - 1, x + i, y + i))
+    if (coordOk(taille - 1, taille - 1, x + i, y + i))
+    {
+        std::cout << "on test DOWN right" << '\n';
         addManMove(x + i, y + i, eat, possibleMoves, p, i, 4);
-
+    }
     return possibleMoves;
 }
 
@@ -427,17 +443,23 @@ void Draughts::addManMove(int x, int y, bool eat, vector<tuple<int, int>> &moves
     bool squareHasPiece = board.getPiece(x, y).getRank() != Rank::EMPTY;
     bool isOtherColor = board.getPiece(x, y).getColor() != p.getColor();
 
+    std::cout << "je regarde la case " << x << " " << y << '\n';
     auto it = moves.end();
     {
         if (direction == 1)
         {
             /* UP LEFT */
             if ((!eat && !squareHasPiece && p.getColor()))
+            {
+                std::cout << "jinsere un pion dans mon vector" << '\n';
                 moves.insert(it, (make_tuple(x, y)));
+            }
             else if (eat && squareHasPiece && isOtherColor && (p.getColor() || game_type == Game_type::DAME_CLASSIQUE))
             {
                 if (coordOk(taille - 1, taille - 1, x - depart - 1, y - depart - 1) && board.getPiece(x - depart - 1, y - depart - 1).getRank() == Rank::EMPTY)
                 {
+                    std::cout << "jinsere un pion dans mon vector" << '\n';
+
                     it = moves.end();
                     moves.insert(it, (make_tuple(x, y)));
                 }
@@ -447,11 +469,16 @@ void Draughts::addManMove(int x, int y, bool eat, vector<tuple<int, int>> &moves
         {
             /* UP RIGHT */
             if ((!eat && !squareHasPiece && p.getColor()))
+            {
                 moves.insert(it, (make_tuple(x, y)));
+                std::cout << "jinsere un pion dans mon vector" << '\n';
+            }
             else if (eat && squareHasPiece && isOtherColor && (p.getColor() || game_type == Game_type::DAME_CLASSIQUE))
             {
                 if (!coordOk(taille - 1, taille - 1, x - depart - 1, y + depart + 1) && board.getPiece(x - depart - 1, y + depart + 1).getRank() == Rank::EMPTY)
                 {
+                    std::cout << "jinsere un pion dans mon vector" << '\n';
+
                     it = moves.end();
                     moves.insert(it, (make_tuple(x, y)));
                 }
@@ -461,12 +488,17 @@ void Draughts::addManMove(int x, int y, bool eat, vector<tuple<int, int>> &moves
         {
             /* DOWN LEFT */
             if ((!eat && !squareHasPiece && !p.getColor()))
+            {
                 moves.insert(it, (make_tuple(x, y)));
+                std::cout << "jinsere un pion dans mon vector" << '\n';
+            }
             else if (eat && squareHasPiece && isOtherColor && (!p.getColor() || game_type == Game_type::DAME_CLASSIQUE))
             {
                 if (!coordOk(taille - 1, taille - 1, x + depart + 1, y - depart - 1) && board.getPiece(x + depart + 1, y - depart - 1).getRank() == Rank::EMPTY)
                 {
                     it = moves.end();
+                    std::cout << "jinsere un pion dans mon vector" << '\n';
+
                     moves.insert(it, (make_tuple(x, y)));
                 }
             }
@@ -475,12 +507,17 @@ void Draughts::addManMove(int x, int y, bool eat, vector<tuple<int, int>> &moves
         {
             /* DOWN RIGHT */
             if ((!eat && !squareHasPiece && !p.getColor()))
+            {
                 moves.insert(it, (make_tuple(x, y)));
+                std::cout << "jinsere un pion dans mon vector" << '\n';
+            }
             else if (eat && squareHasPiece && isOtherColor && (!p.getColor() || game_type == Game_type::DAME_CLASSIQUE))
             {
                 if (!coordOk(taille - 1, taille - 1, x + depart + 1, y + depart + 1) && board.getPiece(x + depart + 1, y + depart + 1).getRank() == Rank::EMPTY)
                 {
                     it = moves.end();
+                    std::cout << "jinsere un pion dans mon vector" << '\n';
+
                     moves.insert(it, (make_tuple(x, y)));
                 }
             }
