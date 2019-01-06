@@ -49,7 +49,13 @@ startLoop:
         splitMove = split(move, "x");
     else
         splitMove = split(move, "-");
-    if (splitMove.size() < 2)
+
+    /*test*/
+    for (int i = 0; i < int(splitMove.size()); i++)
+    {
+        std::cout << splitMove.at(i) << '\n';
+    }
+    if (int(splitMove.size()) < 2)
     {
         cout << "Invalid move : not enough information" << endl;
         goto startLoop;
@@ -62,6 +68,7 @@ startLoop:
     int pos = stoi(splitMove[0]);
     int line = getLine(pos);
     int column = getColumn(pos);
+    Piece piece = board.getPiece(line, column);
     if (line == -1 || column == -1)
     {
         cout << "Invalid move : invalid square number" << endl;
@@ -78,29 +85,22 @@ startLoop:
         cout << "Invalid move : this square is empty" << endl;
         goto startLoop;
     }
-    if (!eat)
+    vector<int> moves;
+    auto it = moves.end();
+
+    for (int i = 0; i < int(moves.size()); i++)
     {
-        int destPos = stoi(splitMove[1]);
+        it = moves.end();
+        moves.insert(it, std::stoi(splitMove.at(i)));
+    }
+
+    if (isMoveOk(moves, eat, piece))
+    {
+        int destPos = stoi(splitMove[int(splitMove.size() - 1)]);
         int destLine = getLine(destPos);
         int destColumn = getColumn(destPos);
-        if ((p.getColor() && destLine < line - 1) || (!p.getColor() && destLine > line + 1) ||
-            (!(destColumn == column + 1 || destColumn == column - 1)))
-        {
-            cout << "Invalid move : you can only move to an adjacent square" << endl;
-            goto startLoop;
-        }
-        if (board.getPiece(destLine, destColumn).getRank() == Rank::EMPTY)
-        {
-            board.movePiece(toMove, destLine, destColumn);
-        }
-        else
-        {
-            cout << "Invalid move : your destination square is not empty" << endl;
-            goto startLoop;
-        }
-    }
-    else
-    {
+        piece.setPos(destLine, destColumn);
+        refresh();
     }
 
     if (!p.getColor())
@@ -224,7 +224,7 @@ bool Draughts::isMoveOk(vector<int> positions, bool eat, Piece &p)
 
     if (!eat && p.getRank() == Rank::MAN)
     {
-        vector<tuple<int, int>> moves = getManMoves(p, eat, Icolumn, Iline);
+        vector<tuple<int, int>> moves = getManMoves(p, eat, Iline, Icolumn);
         for (int i = 0; i < int(moves.size()); i++)
         {
             if (moves.at(i) == t)
@@ -238,7 +238,7 @@ bool Draughts::isMoveOk(vector<int> positions, bool eat, Piece &p)
 
     else if (!eat && p.getRank() == Rank::QUEEN)
     {
-        vector<tuple<int, int>> moves = getQueenMoves(p, eat, Icolumn, Iline);
+        vector<tuple<int, int>> moves = getQueenMoves(p, eat, Iline, Icolumn);
         for (int i = 0; i < int(moves.size()); i++)
         {
             if (moves.at(i) == t)
@@ -263,7 +263,7 @@ bool Draughts::isMoveOk(vector<int> positions, bool eat, Piece &p)
             Icolumn = getColumn(Ipos);
 
             t = make_tuple(column, line);
-            moves = getQueenMoves(p, eat, Icolumn, Iline);
+            moves = getQueenMoves(p, eat, Iline, Icolumn);
             bool isok = false;
             for (int i = 0; i < int(moves.size()); i++)
             {
@@ -294,7 +294,7 @@ bool Draughts::isMoveOk(vector<int> positions, bool eat, Piece &p)
             Icolumn = getColumn(Ipos);
 
             t = make_tuple(column, line);
-            moves = getManMoves(p, eat, Icolumn, Iline);
+            moves = getManMoves(p, eat, Iline, Icolumn);
             bool isok = false;
             for (int i = 0; i < int(moves.size()); i++)
             {
@@ -346,7 +346,6 @@ bool Draughts::addQueenMove(int x, int y, bool eat, vector<tuple<int, int>> &mov
 {
     bool squareHasPiece = board.getPiece(x, y).getRank() != Rank::EMPTY;
     bool isOtherColor = board.getPiece(x, y).getColor() != p.getColor();
-
     auto it = moves.end();
     if ((!eat && !squareHasPiece) || (eat && !squareHasPiece))
         moves.insert(it, (make_tuple(x, y)));
@@ -387,8 +386,6 @@ bool Draughts::addQueenMove(int x, int y, bool eat, vector<tuple<int, int>> &mov
 bool Draughts::addQueenMoveNext(int x, int y, vector<tuple<int, int>> &moves, Piece &p)
 {
     bool squareHasPiece = board.getPiece(x, y).getRank() != Rank::EMPTY;
-    bool isOtherColor = board.getPiece(x, y).getColor() != p.getColor();
-
     auto it = moves.end();
     if (!squareHasPiece)
     {
