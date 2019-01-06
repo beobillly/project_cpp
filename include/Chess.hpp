@@ -21,9 +21,9 @@ private:
 	vector<tuple<int, int>> getMoves(Piece &p, bool eat);
 	bool castlingOk(bool side, Player &p);
 	bool castling(bool side, Player &p);
-	Piece& isMoveOk(Rank r, Player &p, int x, int y, bool eat, int oldX, int oldY);
+	Piece isMoveOk(Rank r, Player &p, int x, int y, bool eat, int oldX, int oldY);
 	bool isChecked(Player &p, int x, int y);
-	Piece& getRightPiece(vector<Piece> &piecesToCheck, Player &p, int x, int y, bool eat);
+	Piece getRightPiece(vector<Piece> &piecesToCheck, Player &p, int x, int y, bool eat);
 	vector<Piece> getPiecesToCheck(Rank r, Player p, int x, int y, int oldX, int oldY);
 	bool coordInVector(vector<tuple<int, int>> vec, int x, int y);
 	vector<tuple<int, int>> getPossibleKingMoves();

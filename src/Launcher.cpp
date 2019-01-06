@@ -2,12 +2,15 @@
 #define LAUNCHER
 #include "../include/Chess.hpp"
 #include "../include/Draughts.hpp"
+#include "../include/Util.hpp"
+#include <time.h>
 
 int main(int argc, char **argv)
 {
 startLoop:
     string name("");
     bool ok_tmp = false;
+    std::srand(time(NULL));
     int r = std::rand() % 3 + 1;
     int res = 0;
     while (!ok_tmp)

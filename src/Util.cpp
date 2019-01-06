@@ -47,17 +47,17 @@ bool coordOk(int height, int length, int x, int y)
 	return (x >= 0 && x <= length && y >= 0 && y <= height);
 }
 
-vector<string> split(string s, string delimiter)
+vector<string> splitString(string s, char delimiter)
 {
 	vector<string> result;
-	size_t pos = 0;
-	std::string token;
-	while ((pos = s.find(delimiter)) != string::npos)
-	{
-		token = s.substr(0, pos);
-		result.push_back(token);
-		s.erase(0, pos + delimiter.length());
+	string token("");
+	for (int i = 0; i<s.size(); i++){
+		if (s[i] == delimiter){
+			result.insert(result.end(), token);
+			token = "";
+		} else token += s[i];
 	}
+	result.insert(result.end(), token);
 	return result;
 }
 

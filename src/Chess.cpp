@@ -6,6 +6,7 @@
 #include <vector>
 #include <algorithm>
 #include "../include/Bot.hpp"
+#include <time.h>
 
 using namespace std;
 
@@ -48,10 +49,12 @@ startLoop:
 	{
 		int y = letterToNumber(move[0]);
 		int x = '8' - move[1];
-		Piece &pawn = isMoveOk(Rank::PAWN, p, x, y, false, -1, -1);
+		Piece pawn = isMoveOk(Rank::PAWN, p, x, y, false, -1, -1);
 		if (pawn.getRank() != Rank::EMPTY)
 		{
+			p.eatPiece(pawn);
 			board.movePiece(pawn, x, y);
+			p.addPiece(pawn);
 			break;
 		}
 		else
@@ -113,7 +116,9 @@ startLoop:
 					goto startLoop;
 				else
 				{
+					p.eatPiece(piece);
 					board.movePiece(piece, x, y);
+					p.addPiece(piece);
 					break;
 				}
 			}
@@ -132,14 +137,16 @@ startLoop:
 			int x = '8' - move[3];
 			if (isMin(move[0]))
 			{ //Pawn capture
-				int oldX = letterToNumber(move[0]);
-				Piece piece = isMoveOk(Rank::PAWN, p, x, y, true, oldX, -1);
+				int oldY = letterToNumber(move[0]);
+				Piece piece = isMoveOk(Rank::PAWN, p, x, y, true, -1, oldY);
 				if (piece.getRank() == Rank::EMPTY)
 					goto startLoop;
 				else
 				{
 					otherPlayer.eatPiece(board.getPiece(x, y));
+					p.eatPiece(piece);
 					board.movePiece(piece, x, y);
+					p.addPiece(piece);
 					break;
 				}
 			}
@@ -154,7 +161,9 @@ startLoop:
 					else
 					{
 						otherPlayer.eatPiece(board.getPiece(x, y));
+						p.eatPiece(piece);
 						board.movePiece(piece, x, y);
+						p.addPiece(piece);
 						break;
 					}
 				}
@@ -183,7 +192,9 @@ startLoop:
 					goto startLoop;
 				else
 				{
+					p.eatPiece(piece);
 					board.movePiece(piece, x, y);
+					p.addPiece(piece);
 					break;
 				}
 			}
@@ -220,7 +231,9 @@ startLoop:
 				else
 				{
 					otherPlayer.eatPiece(board.getPiece(x, y));
+					p.eatPiece(piece);
 					board.movePiece(piece, x, y);
+					p.addPiece(piece);
 					break;
 				}
 			}
@@ -244,7 +257,9 @@ startLoop:
 					goto startLoop;
 				else
 				{
+					p.eatPiece(piece);
 					board.movePiece(piece, x, y);
+					p.addPiece(piece);
 					break;
 				}
 			}
@@ -272,7 +287,9 @@ startLoop:
 				else
 				{
 					otherPlayer.eatPiece(board.getPiece(x, y));
+					p.eatPiece(piece);
 					board.movePiece(piece, x, y);
+					p.addPiece(piece);
 					break;
 				}
 			}
@@ -393,13 +410,12 @@ vector<Piece> Chess::getPiecesToCheck(Rank r, Player p, int x, int y, int oldX, 
 		}
 		if (piecesToCheck.empty())
 		{
-			char file = x + 65;
+			int file = 8 - oldX;
+			char rank = oldY + 65;
 			if (xSpecified)
-				cout << "Invalid move : None of your pieces of rank "
-					 << " are on file " << file << endl;
+				cout << "Invalid move : None of your pieces of rank " << r << " are on file " << file << endl;
 			else
-				cout << "Invalid move : None of your pieces of rank "
-					 << " are on row " << oldY + 1 << endl;
+				cout << "Invalid move : None of your pieces of rank " << r << " are on row " << rank << endl;
 			return piecesToCheck;
 		}
 	}
@@ -531,9 +547,8 @@ bool Chess::addRookOrBishopMove(int x, int y, bool eat, vector<tuple<int, int>> 
 	bool squareHasPiece = board.getPiece(x, y).getRank() != Rank::EMPTY;
 	bool isOtherColor = board.getPiece(x, y).getColor() != p.getColor();
 	auto it = moves.end();
-	if ((!eat && !squareHasPiece) || (eat && !squareHasPiece)) moves.insert(it, (make_tuple(x, y)));
-	else if ((!eat && squareHasPiece) || (eat && squareHasPiece && !isOtherColor))
-		return false;
+	if (!squareHasPiece) moves.insert(it, (make_tuple(x, y)));
+	else if ((!eat && squareHasPiece) || (eat && squareHasPiece && !isOtherColor)) return false;
 	else if (eat && squareHasPiece && isOtherColor)
 	{
 		it = moves.end();
@@ -548,18 +563,10 @@ vector<tuple<int, int>> Chess::getRookMoves(Piece &p, bool eat)
 	vector<tuple<int, int>> possibleMoves;
 	int x = p.getPosX();
 	int y = p.getPosY();
-	/* LEFT */ for (int i = y - 1; i >= 0; i--)
-		if (!addRookOrBishopMove(x, i, eat, possibleMoves, p))
-			break;
-	/* RIGHT */ for (int i = y + 1; i <= 7; i++)
-		if (!addRookOrBishopMove(x, i, eat, possibleMoves, p))
-			break;
-	/* UP */ for (int i = x - 1; i >= 0; i--)
-		if (!addRookOrBishopMove(x, i, eat, possibleMoves, p))
-			break;
-	/* DOWN */ for (int i = x + 1; i <= 7; i++)
-		if (!addRookOrBishopMove(x, i, eat, possibleMoves, p))
-			break;
+	/* LEFT */ for (int i = y - 1; i >= 0; i--) if (!addRookOrBishopMove(x, i, eat, possibleMoves, p)) break;
+	/* RIGHT */ for (int i = y + 1; i <= 7; i++) if (!addRookOrBishopMove(x, i, eat, possibleMoves, p)) break;
+	/* UP */ for (int i = x - 1; i >= 0; i--) if (!addRookOrBishopMove(x, i, eat, possibleMoves, p)) break;
+	/* DOWN */ for (int i = x + 1; i <= 7; i++) if (!addRookOrBishopMove(x, i, eat, possibleMoves, p))break;
 	return possibleMoves;
 }
 
@@ -645,7 +652,7 @@ bool Chess::coordInVector(vector<tuple<int, int>> vec, int x, int y)
 	return false;
 }
 
-Piece& Chess::getRightPiece(vector<Piece> &piecesToCheck, Player &p, int x, int y, bool eat)
+Piece Chess::getRightPiece(vector<Piece> &piecesToCheck, Player &p, int x, int y, bool eat)
 {
 	Piece errorPiece = Piece(true, Rank::EMPTY, 0, 0);
 	vector<Piece> okPieces;
@@ -674,25 +681,30 @@ Piece& Chess::getRightPiece(vector<Piece> &piecesToCheck, Player &p, int x, int 
 
 bool Chess::simulateMove(Piece &toMove, int x, int y, bool eat, Player &p)
 {
+	Player otherPlayer = player_black;
+	if (!p.getColor())
+		otherPlayer = player_white;
 	int oldX = toMove.getPosX();
 	int oldY = toMove.getPosY();
 	Piece &oldPiece = board.getPiece(x, y);
+	p.eatPiece(toMove);
 	board.movePiece(toMove, x, y);
+	p.addPiece(toMove);
 	Piece king = p.allOfRank(Rank::KING).at(0);
-	if (isChecked(p, king.getPosX(), king.getPosY()))
-	{
-		board.movePiece(toMove, oldX, oldY);
-		if (eat)
-			board.movePiece(oldPiece, x, y);
-		return false;
-	}
+	bool toReturn = true;
+	if (isChecked(p, king.getPosX(), king.getPosY())) toReturn = false;
+	p.eatPiece(toMove);
 	board.movePiece(toMove, oldX, oldY);
-	if (eat)
+	p.addPiece(toMove);
+	if (eat) {
+		otherPlayer.eatPiece(oldPiece);
 		board.movePiece(oldPiece, x, y);
-	return true;
+		otherPlayer.addPiece(oldPiece);
+	}
+	return toReturn;
 }
 
-Piece& Chess::isMoveOk(Rank r, Player &p, int x, int y, bool eat, int oldX, int oldY)
+Piece Chess::isMoveOk(Rank r, Player &p, int x, int y, bool eat, int oldX, int oldY)
 {
 	Piece errorPiece = Piece(true, Rank::EMPTY, 0, 0);
 	if (!coordOk(7, 7, x, y))
@@ -911,19 +923,29 @@ void Chess::robotMove(Player &robot, string path)
 {
 	ofstream history;
 	history.open(path);
+	string moveDone("");
+	srand(time(NULL));
 	cout << "Robot's move :" << endl;
 Loop:
+	cout << "loop started" << endl;
 	int nbOfPieces = robot.nbOfPieces() - 1;
 	int randPiece = std::rand() % nbOfPieces;
 	Piece toMove = robot.getPieces().at(randPiece);
 	vector<tuple<int, int>> movesWithEat = getMoves(toMove, true);
 	vector<tuple<int, int>> movesWithoutEat = getMoves(toMove, false);
-	move(movesWithEat.begin(), movesWithEat.end(), back_inserter(movesWithoutEat));
-	if (movesWithoutEat.empty() && movesWithEat.empty())
-		goto Loop;
+	if (movesWithoutEat.empty() && movesWithEat.empty()) goto Loop;
 	int randMove = std::rand() % (movesWithEat.size() + movesWithoutEat.size() - 1);
-	string move("");
-	if (randMove < int(movesWithEat.size()))
+
+	//TEST
+	int file = 8 - toMove.getPosX();
+	char rank = toMove.getPosY() + 65;
+	cout << "Chosen piece : " << toMove.getRank() << file << rank << endl;
+	cout << "With eat size : " << movesWithEat.size() << endl;
+	cout << "Without eat size : " << movesWithoutEat.size() << endl;
+	cout << "rand move : " << randMove << endl;
+	//TEST
+
+	if (randMove < movesWithEat.size() && !movesWithEat.empty())
 	{
 		Player other = getPlayerWhite();
 		if (robot.getColor())
@@ -933,16 +955,20 @@ Loop:
 		if (!simulateMove(toMove, x, y, true, robot)) goto Loop;
 		Piece toEat = board.getPiece(x, y);
 		other.eatPiece(toEat);
+		robot.eatPiece(toMove);
 		board.movePiece(toMove, x, y);
-		move = getMoveNotation(toMove, x, y, true);
+		robot.addPiece(toMove);
+		moveDone = getMoveNotation(toMove, x, y, true);
 	} else {
 		int x =  get<0>(movesWithoutEat[randMove]);
 		int y =  get<1>(movesWithoutEat[randMove]);
 		if (!simulateMove(toMove, x, y, false, robot)) goto Loop;
+		robot.eatPiece(toMove);
 		board.movePiece(toMove,x,y);
-		move = getMoveNotation(toMove, x, y, false);
+		robot.addPiece(toMove);
+		moveDone = getMoveNotation(toMove, x, y, false);
 	}
-	history << move << endl;
+	history << moveDone << endl;
 	history.close();
 }
 

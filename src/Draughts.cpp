@@ -46,9 +46,9 @@ startLoop:
         eat = true;
     vector<string> splitMove;
     if (eat)
-        splitMove = split(move, "x");
+        splitMove = splitString(move, 'x');
     else
-        splitMove = split(move, "-");
+        splitMove = splitString(move, '-');
 
     /*test*/
     for (int i = 0; i < int(splitMove.size()); i++)
