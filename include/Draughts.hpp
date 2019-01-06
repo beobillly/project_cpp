@@ -12,8 +12,6 @@ public:
 
 private:
   bool checkEat(bool eat, Player p, int x, int y);
-  vector<tuple<int, int>> getQueenMoves(Piece p, bool eat);
-  vector<tuple<int, int>> getPawnMoves(Piece p, bool eat);
   bool coordInVector(vector<tuple<int, int>> vec, int x, int y);
   bool simulateMove(Piece toMove, int x, int y, bool eat, Player p);
   bool pawnCheck(bool color, int x, int y);
@@ -21,10 +19,10 @@ private:
   string getMoveNotation(Piece piece, int x, int y, bool eat, char rank);
   int getLine(int pos);
   int getColumn(int pos);
-  bool isMoveOk(vector<int> positions, bool eat, Player p);
+  bool isMoveOk(vector<int> positions, bool eat, Piece &p);
   int taille;
-  vector<tuple<int, int>> getManMoves(Piece &p, bool eat);
-  vector<tuple<int, int>> getQueenMoves(Piece &p, bool eat);
+  vector<tuple<int, int>> getManMoves(Piece &p, bool eat, int x, int y);
+  vector<tuple<int, int>> getQueenMoves(Piece &p, bool eat, int x, int y);
   bool addQueenMove(int x, int y, bool eat, vector<tuple<int, int>> &moves, Piece &p, int depart, int direction);
   void addManMove(int x, int y, bool eat, vector<tuple<int, int>> &moves, Piece &p, int depart, int direction);
   bool addQueenMoveNext(int x, int y, vector<tuple<int,int>> &moves, Piece &p);

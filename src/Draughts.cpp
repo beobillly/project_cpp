@@ -184,16 +184,144 @@ bool Draughts::hasLost(Player p)
     return false;
 }
 
-bool Draughts::isMoveOk(vector<int> positions, bool eat, Player p)
+bool Draughts::isMoveOk(vector<int> positions, bool eat, Piece &p)
 {
-    return true;
+    int pos, line, column, Ipos, Iline, Icolumn;
+    for (int i = 0; i < int(positions.size()); i++)
+    {
+        pos = positions.at(i);
+        line = getLine(pos);
+        column = getColumn(pos);
+        if (!coordOk(7, 7, column, line))
+        { //Si les coordonnées x et/ou y sont en dehors du tableau
+            char file = column + 65;
+            cout << "Invalid move : " << file << line + 1 << " is out of bounds" << endl;
+            return false;
+        }
+    }
+
+    if (int(positions.size()) < 2)
+    {
+        std::cout << "Invalid move : you must at least one position to move" << '\n';
+        return false;
+    }
+
+    if (!eat && int(positions.size()) > 2)
+    {
+        std::cout << "Invalid move : you can not move more than one position if you don't eat" << '\n';
+        return false;
+    }
+
+    pos = positions.at(1);
+    line = getLine(pos);
+    column = getColumn(pos);
+
+    Ipos = positions.at(0);
+    Iline = getLine(Ipos);
+    Icolumn = getColumn(Ipos);
+
+    tuple<int, int> t = make_tuple(column, line);
+
+    if (!eat && p.getRank() == Rank::MAN)
+    {
+        vector<tuple<int, int>> moves = getManMoves(p, eat, Icolumn, Iline);
+        for (int i = 0; i < int(moves.size()); i++)
+        {
+            if (moves.at(i) == t)
+            {
+                return true;
+            }
+        }
+        std::cout << "Invalid move : " << Ipos << "x" << pos << " is not a possible move" << '\n';
+        return false;
+    }
+
+    else if (!eat && p.getRank() == Rank::QUEEN)
+    {
+        vector<tuple<int, int>> moves = getQueenMoves(p, eat, Icolumn, Iline);
+        for (int i = 0; i < int(moves.size()); i++)
+        {
+            if (moves.at(i) == t)
+            {
+                return true;
+            }
+        }
+        std::cout << "Invalid move : " << Ipos << "x" << pos << " is not a possible move" << '\n';
+        return false;
+    }
+
+    else if (eat && p.getRank() == Rank::QUEEN)
+    {
+        vector<tuple<int, int>> moves;
+        for (int j = 1; j < int(positions.size()); j++)
+        {
+            pos = positions.at(j);
+            line = getLine(pos);
+            column = getColumn(pos);
+            Ipos = positions.at(j - 1);
+            Iline = getLine(Ipos);
+            Icolumn = getColumn(Ipos);
+
+            t = make_tuple(column, line);
+            moves = getQueenMoves(p, eat, Icolumn, Iline);
+            bool isok = false;
+            for (int i = 0; i < int(moves.size()); i++)
+            {
+                if (moves.at(i) == t)
+                {
+                    isok = true;
+                }
+            }
+            if (!isok)
+            {
+                std::cout << "Invalid move : " << Ipos << "x" << pos << " is not a possible move" << '\n';
+                return false;
+            }
+        }
+        return true;
+    }
+
+    else if (eat && p.getRank() == Rank::MAN)
+    {
+        vector<tuple<int, int>> moves;
+        for (int j = 1; j < int(positions.size()); j++)
+        {
+            pos = positions.at(j);
+            line = getLine(pos);
+            column = getColumn(pos);
+            Ipos = positions.at(j - 1);
+            Iline = getLine(Ipos);
+            Icolumn = getColumn(Ipos);
+
+            t = make_tuple(column, line);
+            moves = getManMoves(p, eat, Icolumn, Iline);
+            bool isok = false;
+            for (int i = 0; i < int(moves.size()); i++)
+            {
+                if (moves.at(i) == t)
+                {
+                    isok = true;
+                }
+            }
+            if (!isok)
+            {
+                std::cout << "Invalid move : " << Ipos << "x" << pos << " is not a possible move" << '\n';
+                return false;
+            }
+        }
+        return true;
+    }
+    else
+    {
+        std::cout << "Invalid move : Unknown move" << '\n';
+        return false;
+    }
 }
 
-vector<tuple<int, int>> Draughts::getQueenMoves(Piece &p, bool eat)
+vector<tuple<int, int>> Draughts::getQueenMoves(Piece &p, bool eat, int x, int y)
 {
     vector<tuple<int, int>> possibleMoves;
-    int x = p.getPosX();
-    int y = p.getPosY();
+
     /* UP LEFT */ for (int i = 1; i <= taille - 1; i++)
         if (!coordOk(taille - 1, taille - 1, x - i, y - i) || !addQueenMove(x - i, y - i, eat, possibleMoves, p, i, 1))
             break;
@@ -273,11 +401,10 @@ bool Draughts::addQueenMoveNext(int x, int y, vector<tuple<int, int>> &moves, Pi
     }
 }
 
-vector<tuple<int, int>> Draughts::getManMoves(Piece &p, bool eat)
+vector<tuple<int, int>> Draughts::getManMoves(Piece &p, bool eat, int x, int y)
 {
     vector<tuple<int, int>> possibleMoves;
-    int x = p.getPosX();
-    int y = p.getPosY();
+
     int i = 1;
     /* UP LEFT */
     if (!coordOk(taille - 1, taille - 1, x - i, y - i))
