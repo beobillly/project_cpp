@@ -49,7 +49,8 @@ startLoop:
         //showPieces(chess.getPlayerWhite());
         chess.test();
         //TEST
-       while (true) {
+        while (true)
+        {
             chess.refresh();
             chess.Move(chess.getPlayerWhite(), "../history.txt");
             if (chess.checkMate(chess.getPlayerBlack()))
@@ -65,21 +66,20 @@ startLoop:
                 goto gameOver;
             }
         }
-
     }
     else if (res == 2)
     {
         Draughts draughts = Draughts(true);
         while (true)
         {
-            draughts.refresh();
+
             draughts.move(draughts.getPlayerWhite(), "../history.txt");
             if (draughts.hasLost(draughts.getPlayerBlack()))
             {
                 std::cout << draughts.getPlayerWhite().getName() << " wins !" << endl;
                 goto gameOver;
             }
-            draughts.refresh();
+
             draughts.move(draughts.getPlayerBlack(), "../history.txt");
             if (draughts.hasLost(draughts.getPlayerWhite()))
             {
@@ -93,14 +93,14 @@ startLoop:
         Draughts draughts = Draughts(false);
         while (true)
         {
-            draughts.refresh();
+
             draughts.move(draughts.getPlayerWhite(), "../history.txt");
             if (draughts.hasLost(draughts.getPlayerBlack()))
             {
                 std::cout << draughts.getPlayerWhite().getName() << " wins !" << endl;
                 goto gameOver;
             }
-            draughts.refresh();
+
             draughts.move(draughts.getPlayerBlack(), "../history.txt");
             if (draughts.hasLost(draughts.getPlayerWhite()))
             {

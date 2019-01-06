@@ -25,8 +25,8 @@ private:
   vector<tuple<int, int>> getQueenMoves(Piece &p, bool eat, int x, int y);
   bool addQueenMove(int x, int y, bool eat, vector<tuple<int, int>> &moves, Piece &p, int depart, int direction);
   void addManMove(int x, int y, bool eat, vector<tuple<int, int>> &moves, Piece &p, int depart, int direction);
-  bool addQueenMoveNext(int x, int y, vector<tuple<int,int>> &moves, Piece &p);
-
+  bool addQueenMoveNext(int x, int y, vector<tuple<int, int>> &moves, Piece &p);
+  vector<tuple<int, int>> eatenP(vector<int> positions);
 };
 
 #endif // !DRAUGHTS
