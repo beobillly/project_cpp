@@ -24,7 +24,7 @@ public:
   Player &getPlayerWhite();
   Player &getPlayerBlack();
   void readFile(string path);
-  virtual void move (Player p, string move, string path) = 0;
+  virtual void move (Player &p, string move, string path) = 0;
 
 protected:
   Player player_white;

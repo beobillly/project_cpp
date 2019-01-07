@@ -7,7 +7,7 @@ class Draughts : public Game
 public:
   Draughts();
   Draughts(bool classique);
-  void move(Player p, string move, string path);
+  void move(Player &p, string move, string path);
   bool hasLost(Player p);
 
 private:
