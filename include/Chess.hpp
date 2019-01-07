@@ -6,7 +6,7 @@ class Chess : public Game
 {
   public:
 	Chess();
-	void Move(Player &p, string path);
+	void Move(Player &p,string move, string path);
 	bool checkMate(Player &p);
     void test();
 
@@ -38,6 +38,7 @@ private:
 	string getMoveNotation(Piece &piece, int x, int y, bool eat);
 	void robotMove(Player &robot, string path);
 	void showPieces(Player &p);
+	void readFile(string path);
 };
 
 #endif // !CHESS

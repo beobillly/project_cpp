@@ -51,14 +51,14 @@ startLoop:
         //TEST
        while (true) {
             chess.refresh();
-            chess.Move(chess.getPlayerWhite(), "../history.txt");
+            chess.Move(chess.getPlayerWhite(),"", "../history.txt");
             if (chess.checkMate(chess.getPlayerBlack()))
             {
                 std::cout << chess.getPlayerWhite().getName() << " wins !" << endl;
                 goto gameOver;
             }
             chess.refresh();
-            chess.Move(chess.getPlayerBlack(), "../history.txt");
+            chess.Move(chess.getPlayerBlack(),"", "../history.txt");
             if (chess.checkMate(chess.getPlayerWhite()))
             {
                 std::cout << chess.getPlayerBlack().getName() << " wins !" << endl;
