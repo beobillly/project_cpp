@@ -31,17 +31,30 @@ Draughts::Draughts(bool classique)
 
 void Draughts::move(Player p, string path)
 {
+    if (p.getName() == "Robot")
+    {
+        robotMove(p, path);
+        return;
+    }
     ofstream history;
     history.open(path);
     Player otherPlayer = player_black;
     if (!p.getColor())
         otherPlayer = player_white;
 startLoop:
+    //test
+    Piece reine = Piece(true, Rank::QUEEN, 5, 4);
+    board.setPiece(reine, 5, 4);
     refresh();
     cout << p.getName() << "'s turn" << endl;
     cout << "Please enter your move : " << endl;
     string move("");
     cin >> move;
+    if (move == "help")
+    {
+        help(p);
+        goto startLoop;
+    }
     bool eat = false;
     if (move[2] == 'x' || move[1] == 'x')
         eat = true;
@@ -99,12 +112,18 @@ startLoop:
 
     if (isMoveOk(moves, eat, piece))
     {
+        p.eatPiece(piece);
+        // for (int i = 0; i < p.getPieces().size(); i++)
+        // {
+        //     cout << p.getPieces().at(i).getPosX() << " " << p.getPieces().at(i).getPosY() << '\n';
+        // }
         int destPos = stoi(splitMove[int(splitMove.size() - 1)]);
         int destLine = getLine(destPos);
         int destColumn = getColumn(destPos);
         piece.setPos(destLine, destColumn);
         board.setPiece(piece, destLine, destColumn);
         board.setPiece(p_, line, column);
+        p.addPiece(piece);
         if (eat)
         {
             vector<tuple<int, int>> eaten = eatenP(moves);
@@ -234,7 +253,7 @@ bool Draughts::isMoveOk(vector<int> positions, bool eat, Piece &p)
         pos = positions.at(i);
         line = getLine(pos);
         column = getColumn(pos);
-        if (!coordOk(taille-1, taille-1, line, column))
+        if (!coordOk(taille - 1, taille - 1, line, column))
         { //Si les coordonnées x et/ou y sont en dehors du tableau
             char file = column + 65;
             cout << "Invalid move : " << file << line + 1 << " is out of bounds" << endl;
@@ -284,8 +303,13 @@ bool Draughts::isMoveOk(vector<int> positions, bool eat, Piece &p)
     else if (!eat && p.getRank() == Rank::QUEEN)
     {
         vector<tuple<int, int>> moves = getQueenMoves(p, eat, Iline, Icolumn);
+        std::cout << "je suis ici" << '\n';
+        std::cout << "moves.size() = " << moves.size() << '\n';
+
         for (int i = 0; i < int(moves.size()); i++)
         {
+            std::cout << "t(0) = " << std::get<0>(t);
+            std::cout << "et t(1) = " << std::get<1>(t) << '\n';
             if (moves.at(i) == t)
             {
                 return true;
@@ -374,17 +398,29 @@ vector<tuple<int, int>> Draughts::getQueenMoves(Piece &p, bool eat, int x, int y
     vector<tuple<int, int>> possibleMoves;
 
     /* UP LEFT */ for (int i = 1; i <= taille - 1; i++)
-        if (coordOk(taille - 1, taille - 1, x - i, y - i) || !addQueenMove(x - i, y - i, eat, possibleMoves, p, i, 1))
-            break;
+        if (coordOk(taille - 1, taille - 1, x - i, y - i))
+        {
+            addQueenMove(x - i, y - i, eat, possibleMoves, p, i, 1);
+        }
+
     /* UP RIGHT */ for (int i = 1; i <= taille - 1; i++)
-        if (coordOk(taille - 1, taille - 1, x - i, y + i) || !addQueenMove(x - i, y + i, eat, possibleMoves, p, i, 2))
-            break;
+        if (coordOk(taille - 1, taille - 1, x - i, y + i))
+        {
+            addQueenMove(x - i, y + i, eat, possibleMoves, p, i, 2);
+        }
+
     /* DOWN LEFT */ for (int i = 1; i <= taille - 1; i++)
-        if (coordOk(taille - 1, taille - 1, x + i, y - i) || !addQueenMove(x + i, y - i, eat, possibleMoves, p, i, 3))
-            break;
+        if (coordOk(taille - 1, taille - 1, x + i, y - i))
+        {
+            addQueenMove(x + i, y - i, eat, possibleMoves, p, i, 3);
+        }
+
     /* DOWN RIGHT */ for (int i = 1; i <= taille - 1; i++)
-        if (coordOk(taille - 1, taille - 1, x + i, y + i) || !addQueenMove(x + i, y + i, eat, possibleMoves, p, i, 4))
-            break;
+        if (coordOk(taille - 1, taille - 1, x + i, y + i))
+        {
+            addQueenMove(x + i, y + i, eat, possibleMoves, p, i, 4);
+        }
+
     return possibleMoves;
 }
 /*
@@ -407,26 +443,34 @@ bool Draughts::addQueenMove(int x, int y, bool eat, vector<tuple<int, int>> &mov
         if (direction == 1)
         {
             /* UP LEFT */ for (int i = depart; i <= taille - 1; i++)
-                if (coordOk(taille - 1, taille - 1, x - i, y - i) || !addQueenMoveNext(x - i, y - i, moves, p))
-                    break;
+                if (coordOk(taille - 1, taille - 1, x - i, y - i))
+                {
+                    addQueenMoveNext(x - i, y - i, moves, p);
+                }
         }
         else if (direction == 2)
         {
             /* UP RIGHT */ for (int i = depart; i <= taille - 1; i++)
-                if (coordOk(taille - 1, taille - 1, x - i, y + i) || !addQueenMoveNext(x - i, y + i, moves, p))
-                    break;
+                if (coordOk(taille - 1, taille - 1, x - i, y + i))
+                {
+                    addQueenMoveNext(x - i, y + i, moves, p);
+                }
         }
         else if (direction == 3)
         {
             /* DOWN LEFT */ for (int i = depart; i <= taille - 1; i++)
-                if (coordOk(taille - 1, taille - 1, x + i, y - i) || !addQueenMoveNext(x + i, y - i, moves, p))
-                    break;
+                if (coordOk(taille - 1, taille - 1, x + i, y - i))
+                {
+                    addQueenMoveNext(x + i, y - i, moves, p);
+                }
         }
         else
         {
             /* DOWN RIGHT */ for (int i = depart; i <= taille - 1; i++)
-                if (coordOk(taille - 1, taille - 1, x + i, y + i) || !addQueenMoveNext(x + i, y + i, moves, p))
-                    break;
+                if (coordOk(taille - 1, taille - 1, x + i, y + i))
+                {
+                    addQueenMoveNext(x + i, y + i, moves, p);
+                }
         }
 
         return false;
@@ -607,6 +651,97 @@ vector<tuple<int, int>> Draughts::eatenP(vector<int> positions)
     return res;
 }
 
-void Draughts::help(Player p)
+void Draughts::help(Player &p)
 {
+    for (Piece piece : p.getPieces())
+    {
+        vector<tuple<int, int>> movesWithEat = getMoves(piece, true);
+        vector<tuple<int, int>> movesWithoutEat = getMoves(piece, false);
+        for (int i = 0; i < int(movesWithEat.size()); i++)
+            cout << getMoveNotation(piece, get<0>(movesWithEat[i]), get<1>(movesWithEat[i]), true) << endl;
+        for (int i = 0; i < int(movesWithoutEat.size()); i++)
+            cout << getMoveNotation(piece, get<0>(movesWithoutEat[i]), get<1>(movesWithoutEat[i]), false) << endl;
+    }
+}
+
+vector<tuple<int, int>> Draughts::getMoves(Piece &p, bool eat)
+{
+    switch (p.getRank())
+    {
+    case Rank::QUEEN:
+        return getQueenMoves(p, eat, p.getPosX(), p.getPosY());
+    case Rank::MAN:
+        return getManMoves(p, eat, p.getPosX(), p.getPosY());
+    default:
+        return getManMoves(p, eat, p.getPosX(), p.getPosY());
+    }
+}
+
+string Draughts::getMoveNotation(Piece &piece, int x, int y, bool eat)
+{
+    string move = "";
+    int posDep = ((piece.getPosY() / 2 + 1) + (piece.getPosX() * (taille / 2)));
+    move += to_string(posDep);
+    if (eat)
+        move += 'x';
+    else
+        move += '-';
+    int posArr = ((y / 2 + 1) + (x * (taille / 2)));
+    move += to_string(posArr);
+    return move;
+}
+void Draughts::robotMove(Player &robot, string path)
+{
+    ofstream history;
+    history.open(path);
+    string moveDone("");
+    srand(time(NULL));
+    cout << "Robot's move :" << endl;
+Loop:
+    cout << "loop started" << endl;
+    int nbOfPieces = robot.nbOfPieces() - 1;
+    int randPiece = std::rand() % nbOfPieces;
+    Piece toMove = robot.getPieces().at(randPiece);
+    vector<tuple<int, int>> movesWithEat = getMoves(toMove, true);
+    vector<tuple<int, int>> movesWithoutEat = getMoves(toMove, false);
+    if (movesWithoutEat.empty() && movesWithEat.empty())
+        goto Loop;
+    int randMove = std::rand() % (movesWithEat.size() + movesWithoutEat.size() - 1);
+
+    //TEST
+    int file = 8 - toMove.getPosX();
+    char rank = toMove.getPosY() + 65;
+    cout << "Chosen piece : " << toMove.getRank() << file << rank << endl;
+    cout << "With eat size : " << movesWithEat.size() << endl;
+    cout << "Without eat size : " << movesWithoutEat.size() << endl;
+    cout << "rand move : " << randMove << endl;
+    //TEST
+
+    if (randMove < int(movesWithEat.size()) && !movesWithEat.empty())
+    {
+        Player other = getPlayerWhite();
+        if (robot.getColor())
+            other = getPlayerBlack();
+        int x = get<0>(movesWithEat[randMove]);
+        int y = get<1>(movesWithEat[randMove]);
+
+        Piece toEat = board.getPiece(x, y);
+        other.eatPiece(toEat);
+        robot.eatPiece(toMove);
+        board.movePiece(toMove, x, y);
+        robot.addPiece(toMove);
+        moveDone = getMoveNotation(toMove, x, y, true);
+    }
+    else
+    {
+        int x = get<0>(movesWithoutEat[randMove]);
+        int y = get<1>(movesWithoutEat[randMove]);
+
+        robot.eatPiece(toMove);
+        board.movePiece(toMove, x, y);
+        robot.addPiece(toMove);
+        moveDone = getMoveNotation(toMove, x, y, false);
+    }
+    history << moveDone << endl;
+    history.close();
 }
