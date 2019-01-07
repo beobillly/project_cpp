@@ -1,6 +1,13 @@
 #include "../include/Game.hpp"
 #include "../include/Bot.hpp"
-
+#include "../include/Util.hpp"
+#include <fstream>
+#include <ctype.h>
+#include <tuple>
+#include <vector>
+#include <algorithm>
+#include "../include/Bot.hpp"
+#include <time.h>
 Game::Game()
 {
     std::cout << "Do you want to play against the robot ? (Y/N) " << endl;
@@ -140,4 +147,21 @@ Player &Game::getPlayerBlack()
 Game_type Game::getGameType()
 {
     return game_type;
+}
+
+void Game::readFile(string path) {
+    ifstream file;
+    file.open(path.c_str());
+    if (!file) {
+        cout << "No readable file found at " << path << endl;
+        return;
+    }
+    string movepw;
+    string movepb;
+    while (file >> movepb >> movepw){
+        board.show();
+        move(player_black, movepb, "");
+        board.show();
+        move(player_white, movepw, "");
+    }
 }

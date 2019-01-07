@@ -52,14 +52,14 @@ startLoop:
         while (true)
         {
             chess.refresh();
-            chess.Move(chess.getPlayerWhite(),"", "../history.txt");
+            chess.move(chess.getPlayerWhite(), "", "../history.txt");
             if (chess.checkMate(chess.getPlayerBlack()))
             {
                 std::cout << chess.getPlayerWhite().getName() << " wins !" << endl;
                 goto gameOver;
             }
             chess.refresh();
-            chess.Move(chess.getPlayerBlack(),"", "../history.txt");
+            chess.move(chess.getPlayerBlack(), "", "../history.txt");
             if (chess.checkMate(chess.getPlayerWhite()))
             {
                 std::cout << chess.getPlayerBlack().getName() << " wins !" << endl;
@@ -73,14 +73,14 @@ startLoop:
         while (true)
         {
 
-            draughts.move(draughts.getPlayerWhite(), "../history.txt");
+            draughts.move(draughts.getPlayerWhite(), "", "../history.txt");
             if (draughts.hasLost(draughts.getPlayerBlack()))
             {
                 std::cout << draughts.getPlayerWhite().getName() << " wins !" << endl;
                 goto gameOver;
             }
 
-            draughts.move(draughts.getPlayerBlack(), "../history.txt");
+            draughts.move(draughts.getPlayerBlack(), "", "../history.txt");
             if (draughts.hasLost(draughts.getPlayerWhite()))
             {
                 std::cout << draughts.getPlayerBlack().getName() << " wins !" << endl;
@@ -94,14 +94,14 @@ startLoop:
         while (true)
         {
 
-            draughts.move(draughts.getPlayerWhite(), "../history.txt");
+            draughts.move(draughts.getPlayerWhite(),"", "../history.txt");
             if (draughts.hasLost(draughts.getPlayerBlack()))
             {
                 std::cout << draughts.getPlayerWhite().getName() << " wins !" << endl;
                 goto gameOver;
             }
 
-            draughts.move(draughts.getPlayerBlack(), "../history.txt");
+            draughts.move(draughts.getPlayerBlack(),"", "../history.txt");
             if (draughts.hasLost(draughts.getPlayerWhite()))
             {
                 std::cout << draughts.getPlayerBlack().getName() << " wins !" << endl;

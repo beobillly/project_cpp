@@ -1,10 +1,5 @@
 #include "../include/Draughts.hpp"
-#include "../include/Util.hpp"
-#include <fstream>
-#include <ctype.h>
-#include <tuple>
-#include <vector>
-#include <algorithm>
+#include "Game.cpp"
 
 using namespace std;
 
@@ -27,11 +22,20 @@ Draughts::Draughts(bool classique)
     Board board = Board(taille, taille);
     this->board = board;
     init();
+    cout << "Would you like to load a game from a file ? (Y/N)" << endl;
+    string answer("");
+    cin >> answer;
+    if (answer == "Y")
+    {
+        cout << "Please enter the file path : ";
+        cin >> answer;
+        readFile(answer);
+    }
 }
 
-void Draughts::move(Player p, string path)
+void Draughts::move(Player p, string move, string path)
 {
-    if (p.getName() == "Robot")
+    if (p.getName() == "Robot" && move == "")
     {
         robotMove(p, path);
         return;
@@ -41,6 +45,9 @@ void Draughts::move(Player p, string path)
     Player otherPlayer = player_black;
     if (!p.getColor())
         otherPlayer = player_white;
+    bool read = false;
+    if (move != "")
+        read = true;
 startLoop:
     //test
     Piece reine = Piece(true, Rank::QUEEN, 5, 4);
@@ -48,11 +55,12 @@ startLoop:
     refresh();
     cout << p.getName() << "'s turn" << endl;
     cout << "Please enter your move : " << endl;
-    string move("");
+    move = "";
     cin >> move;
     if (move == "help")
     {
         help(p);
+        move = "";
         goto startLoop;
     }
     bool eat = false;
@@ -74,12 +82,24 @@ startLoop:
     if (int(splitMove.size()) < 2)
     {
         cout << "Invalid move : not enough information" << endl;
-        goto startLoop;
+        if (read)
+            return;
+        else
+        {
+            move = "";
+            goto startLoop;
+        }
     }
     if (!eat && splitMove.size() > 2)
     {
         cout << "You can only move once without eating. \n If you want to eat please replace your - with x" << endl;
-        goto startLoop;
+        if (read)
+            return;
+        else
+        {
+            move = "";
+            goto startLoop;
+        }
     }
     int pos = stoi(splitMove[0]);
     int line = getLine(pos);
@@ -90,18 +110,36 @@ startLoop:
     if (line == -1 || column == -1)
     {
         cout << "Invalid move : invalid square number" << endl;
-        goto startLoop;
+        if (read)
+            return;
+        else
+        {
+            move = "";
+            goto startLoop;
+        }
     }
     Piece toMove = board.getPiece(line, column);
     if (toMove.getColor() != p.getColor())
     {
         cout << "Invalid move : you're trying to move the other player's piece" << endl;
-        goto startLoop;
+        if (read)
+            return;
+        else
+        {
+            move = "";
+            goto startLoop;
+        }
     }
     if (toMove.getRank() == Rank::EMPTY)
     {
         cout << "Invalid move : this square is empty" << endl;
-        goto startLoop;
+        if (read)
+            return;
+        else
+        {
+            move = "";
+            goto startLoop;
+        }
     }
     vector<int> moves;
 
@@ -152,7 +190,13 @@ startLoop:
     }
     else
     {
-        goto startLoop;
+        if (read)
+            return;
+        else
+        {
+            move = "";
+            goto startLoop;
+        }
     }
 
     if (!p.getColor())

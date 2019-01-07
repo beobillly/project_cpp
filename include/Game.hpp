@@ -21,8 +21,10 @@ public:
   void init_man(int pos, Player &p, int start);
   Game_type getGameType();
   Board getBoard();
-  Player & getPlayerWhite();
-  Player & getPlayerBlack();
+  Player &getPlayerWhite();
+  Player &getPlayerBlack();
+  void readFile(string path);
+  virtual void move (Player p, string move, string path) = 0;
 
 protected:
   Player player_white;

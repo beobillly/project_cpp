@@ -6,7 +6,7 @@ class Chess : public Game
 {
   public:
 	Chess();
-	void Move(Player &p,string move, string path);
+	void move(Player &p,string move, string path);
 	bool checkMate(Player &p);
     void test();
 

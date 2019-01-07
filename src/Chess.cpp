@@ -1,12 +1,5 @@
 #include "../include/Chess.hpp"
-#include "../include/Util.hpp"
-#include <fstream>
-#include <ctype.h>
-#include <tuple>
-#include <vector>
-#include <algorithm>
-#include "../include/Bot.hpp"
-#include <time.h>
+#include "Game.cpp"
 
 using namespace std;
 
@@ -27,7 +20,7 @@ Chess::Chess()
     }
 }
 
-void Chess::Move(Player &p, string move, string path)
+void Chess::move(Player &p, string move, string path)
 {
     if (p.getName() == "Robot" && move == "")
     {
@@ -589,7 +582,7 @@ vector<tuple<int, int>> Chess::getQueenMoves(Piece &p, bool eat)
 {
     vector<tuple<int, int>> rookMoves = getRookMoves(p, eat);
     vector<tuple<int, int>> bishopMoves = getBishopMoves(p, eat);
-    move(bishopMoves.begin(), bishopMoves.end(), back_inserter(rookMoves));
+    std::move(bishopMoves.begin(), bishopMoves.end(), back_inserter(rookMoves));
     return rookMoves;
 }
 vector<tuple<int, int>> Chess::getKnightMoves(Piece &p, bool eat)
@@ -1041,22 +1034,6 @@ void Chess::robotMove(Player &robot, string path)
     history.close();
 }
 
-void Chess::readFile(string path) {
-    ifstream file;
-    file.open(path.c_str());
-    if (!file) {
-        cout << "No readable file found at " << path << endl;
-        return;
-    }
-    string movepw;
-    string movepb;
-    while (file >> movepb >> movepw){
-        board.show();
-        Move(player_black, movepb, "");
-        board.show();
-        Move(player_white, movepw, "");
-    }
-}
 
 // TESTS ............................................
 
