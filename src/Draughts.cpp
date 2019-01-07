@@ -33,7 +33,7 @@ Draughts::Draughts(bool classique)
     }
 }
 
-void Draughts::move(Player p, string move, string path)
+void Draughts::move(Player &p, string move, string path)
 {
     if (p.getName() == "Robot" && move == "")
     {
