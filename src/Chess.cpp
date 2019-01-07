@@ -1080,12 +1080,12 @@ void Chess::test(){
     for (int i = 0; i < movesWithoutEat.size(); i++)
         cout << getMoveNotation(piece, get<0>(movesWithoutEat[i]), get<1>(movesWithoutEat[i]), false) << endl;
 
-    /*vector<Piece> pieces = player_black.allOfRank(Rank::KING);
-    for (Piece piece : pieces) {
-        int file = 8 - piece.getPosX();
-        char rank = piece.getPosY() + 65;
-        cout << "The piece on " << file << rank << " can do these moves : " << endl;
-    }*/
+	vector<Piece> pieces = player_black.allOfRank(Rank::KING);
+	for (Piece piece : pieces) {
+		int file = 8 - piece.getPosX();
+		char rank = piece.getPosY() + 65;
+		cout << "The piece on " << file << rank << " can do these moves : " << endl;
+	}*/
 }
 
 // END TESTS ........................................
