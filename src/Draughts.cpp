@@ -1,5 +1,5 @@
 #include "../include/Draughts.hpp"
-#include "Game.cpp"
+#include "../include/Game.hpp"
 
 using namespace std;
 
@@ -29,7 +29,7 @@ Draughts::Draughts(bool classique)
     {
         cout << "Please enter the file path : ";
         cin >> answer;
-        readFile(answer);
+        Game::readFile(answer);
     }
 }
 

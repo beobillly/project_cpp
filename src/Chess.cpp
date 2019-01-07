@@ -1,5 +1,5 @@
 #include "../include/Chess.hpp"
-#include "Game.cpp"
+#include "Game.hpp"
 
 using namespace std;
 
@@ -16,7 +16,7 @@ Chess::Chess()
     if (answer == "Y") {
         cout << "Please enter the file path : ";
         cin >> answer;
-        readFile(answer);
+        Game::readFile(answer);
     }
 }
 

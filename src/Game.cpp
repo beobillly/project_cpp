@@ -1,13 +1,4 @@
 #include "../include/Game.hpp"
-#include "../include/Bot.hpp"
-#include "../include/Util.hpp"
-#include <fstream>
-#include <ctype.h>
-#include <tuple>
-#include <vector>
-#include <algorithm>
-#include "../include/Bot.hpp"
-#include <time.h>
 Game::Game()
 {
     std::cout << "Do you want to play against the robot ? (Y/N) " << endl;

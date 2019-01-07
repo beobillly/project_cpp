@@ -3,6 +3,16 @@
 #include "Player.hpp"
 #include "Board.hpp"
 #include "../src/Game_type.cpp"
+#include "../include/Bot.hpp"
+#include "../include/Util.hpp"
+#include <fstream>
+#include <ctype.h>
+#include <tuple>
+#include <vector>
+#include <algorithm>
+#include "../include/Bot.hpp"
+#include <time.h>
+
 class Game
 {
 public:
