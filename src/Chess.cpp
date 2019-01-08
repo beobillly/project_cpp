@@ -794,16 +794,20 @@ Piece Chess::isMoveOk(Rank r, Player &p, int x, int y, bool eat, int oldX, int o
 bool Chess::queenOrRookCheck(bool color, int x, int y)
 {
     Piece pieceOnXY = board.getPiece(x, y);
-    if (pieceOnXY.getColor() != color && (pieceOnXY.getRank() == Rank::QUEEN || pieceOnXY.getRank() == Rank::ROOK))
+    if (pieceOnXY.getColor() != color && (pieceOnXY.getRank() == Rank::QUEEN || pieceOnXY.getRank() == Rank::ROOK)) {
+        cout << pieceOnXY.getRank() << " on " << x << y << " puts the king in check" << endl;
         return true;
+    }
     return false;
 }
 
 bool Chess::queenOrBishopCheck(bool color, int x, int y)
 {
     Piece pieceOnXY = board.getPiece(x, y);
-    if (pieceOnXY.getColor() != color && (pieceOnXY.getRank() == Rank::QUEEN || pieceOnXY.getRank() == Rank::BISHOP))
+    if (pieceOnXY.getColor() != color && (pieceOnXY.getRank() == Rank::QUEEN || pieceOnXY.getRank() == Rank::BISHOP)) {
+        cout << pieceOnXY.getRank() << " on " << x << y << " puts the king in check" << endl;
         return true;
+    }
     return false;
 }
 
@@ -817,8 +821,10 @@ bool Chess::knightCheck(bool color, int x, int y)
         if (coordOk(7, 7, newX, newY))
         {
             Piece pieceOnNewXNewY = board.getPiece(newX, newY);
-            if (pieceOnNewXNewY.getColor() != color && pieceOnNewXNewY.getRank() == Rank::KNIGHT)
+            if (pieceOnNewXNewY.getColor() != color && pieceOnNewXNewY.getRank() == Rank::KNIGHT) {
+                cout << "Knight on " << newX << newY << "puts the king in check" << endl;
                 return true;
+            }
         }
     }
     return false;
@@ -831,14 +837,18 @@ bool Chess::pawnCheck(bool color, int x, int y)
         if (coordOk(7, 7, x + 1, y - 1))
         {
             Piece pieceDownLeft = board.getPiece(x + 1, y - 1);
-            if (pieceDownLeft.getColor() == false && pieceDownLeft.getRank() == Rank::PAWN)
+            if (pieceDownLeft.getColor() == false && pieceDownLeft.getRank() == Rank::PAWN) {
+                cout << "Pawn on " << x+1 << y-1 << "puts the king in check" << endl;
                 return true;
+            }
         }
         if (coordOk(7, 7, x + 1, y + 1))
         {
             Piece pieceDownRight = board.getPiece(x + 1, y + 1);
-            if (pieceDownRight.getColor() == false && pieceDownRight.getRank() == Rank::PAWN)
+            if (pieceDownRight.getColor() == false && pieceDownRight.getRank() == Rank::PAWN) {
+                cout << "Pawn on " << x + 1 << y + 1 << "puts the king in check" << endl;
                 return true;
+            }
         }
     }
     else
@@ -846,14 +856,18 @@ bool Chess::pawnCheck(bool color, int x, int y)
         if (coordOk(7, 7, x - 1, y - 1))
         {
             Piece pieceUpLeft = board.getPiece(x - 1, y - 1);
-            if (pieceUpLeft.getColor() && pieceUpLeft.getRank() == Rank::PAWN)
+            if (pieceUpLeft.getColor() && pieceUpLeft.getRank() == Rank::PAWN) {
+                cout << "Pawn on " << x - 1 << y - 1 << "puts the king in check" << endl;
                 return true;
+            }
         }
         if (coordOk(7, 7, x - 1, y + 1))
         {
             Piece pieceUpRight = board.getPiece(x - 1, y + 1);
-            if (pieceUpRight.getColor() && pieceUpRight.getRank() == Rank::PAWN)
+            if (pieceUpRight.getColor() && pieceUpRight.getRank() == Rank::PAWN) {
+                cout << "Pawn on " << x - 1 << y + 1 << "puts the king in check" << endl;
                 return true;
+            }
         }
     }
     return false;
@@ -868,24 +882,36 @@ bool Chess::isChecked(Player &p, int x, int y) //-> retourne vrai si mettre le r
     int oldY = king.getPosY();
 
     //QUEEN AND ROOKS
-    /* UP */ for (int i = x - 1; i >= 0; i--)
+    /* UP */
+    for (int i = x - 1; i >= 0; i--) {
+        if (board.getPiece(i, y).getRank() != Rank::EMPTY && board.getPiece(i, y).getColor() == p.getColor()) break;
         if (queenOrRookCheck(color, i, y))
             goto check;
-    /* DOWN */ for (int i = x + 1; i <= 7; i++)
+    }
+    /* DOWN */
+    for (int i = x + 1; i <= 7; i++) {
+        if (board.getPiece(i, y).getRank() != Rank::EMPTY && board.getPiece(i, y).getColor() == p.getColor()) break;
         if (queenOrRookCheck(color, i, y))
             goto check;
-    /* LEFT */ for (int i = y - 1; i >= 0; i--)
+    }
+    /* LEFT */
+    for (int i = y - 1; i >= 0; i--) {
+        if (board.getPiece(x,i).getRank() != Rank::EMPTY && board.getPiece(x, i).getColor() == p.getColor()) break;
         if (queenOrRookCheck(color, x, i))
             goto check;
-    /* RIGHT */ for (int i = y + 1; i <= 7; i++)
+    }
+    /* RIGHT */
+    for (int i = y + 1; i <= 7; i++) {
+        if (board.getPiece(x, i).getRank() != Rank::EMPTY && board.getPiece(x, i).getColor() == p.getColor()) break;
         if (queenOrRookCheck(color, x, i))
             goto check;
+    }
 
     //QUEEN AND BISHOPS
     /* UP LEFT */
     for (int i = 1; i <= 7; i++)
     {
-        if (!coordOk(7, 7, x - i, y - i))
+        if ((!coordOk(7, 7, x - i, y - i))  || (board.getPiece(x -i, y -i).getRank() != Rank::EMPTY && board.getPiece(x-i, y-i).getColor() == p.getColor()))
             break;
         if (queenOrBishopCheck(color, x - i, y - i))
             goto check;
@@ -893,7 +919,7 @@ bool Chess::isChecked(Player &p, int x, int y) //-> retourne vrai si mettre le r
     /* UP RIGHT */
     for (int i = 1; i <= 7; i++)
     {
-        if (!coordOk(7, 7, x - i, y + i))
+        if ((!coordOk(7, 7, x - i, y + i)) || (board.getPiece(x -i, y +i).getRank() != Rank::EMPTY && board.getPiece(x-i, y+i).getColor() == p.getColor()))
             break;
         if (queenOrBishopCheck(color, x - i, y + i))
             goto check;
@@ -901,7 +927,7 @@ bool Chess::isChecked(Player &p, int x, int y) //-> retourne vrai si mettre le r
     /* DOWN LEFT */
     for (int i = 1; i <= 7; i++)
     {
-        if (!coordOk(7, 7, x + i, y - i))
+        if ((!coordOk(7, 7, x + i, y - i)) || (board.getPiece(x +i, y -i).getRank() != Rank::EMPTY && board.getPiece(x+i, y-i).getColor() == p.getColor()))
             break;
         if (queenOrBishopCheck(color, x + i, y - i))
             goto check;
@@ -909,7 +935,7 @@ bool Chess::isChecked(Player &p, int x, int y) //-> retourne vrai si mettre le r
     /* DOWN RIGHT */
     for (int i = 1; i <= 7; i++)
     {
-        if (!coordOk(7, 7, x + i, y + i))
+        if ((!coordOk(7, 7, x + i, y + i)) || (board.getPiece(x +i, y +i).getRank() != Rank::EMPTY && board.getPiece(x+i, y+i).getColor() == p.getColor()))
             break;
         if (queenOrBishopCheck(color, x + i, y + i))
             goto check;
