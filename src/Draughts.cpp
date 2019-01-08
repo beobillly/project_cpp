@@ -49,14 +49,12 @@ void Draughts::move(Player &p, string move, string path)
     if (move != "")
         read = true;
 startLoop:
-    //test
-    Piece reine = Piece(true, Rank::QUEEN, 5, 4);
-    board.setPiece(reine, 5, 4);
-    refresh();
-    cout << p.getName() << "'s turn" << endl;
-    cout << "Please enter your move : " << endl;
-    move = "";
-    cin >> move;
+    if (move == "") {
+        cout << p.getName() << "'s turn" << endl;
+        cout << "Please enter your move : " << endl;
+        move = "";
+        cin >> move;
+    }
     if (move == "help")
     {
         help(p);
