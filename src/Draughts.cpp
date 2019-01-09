@@ -49,7 +49,8 @@ void Draughts::move(Player &p, string move, string path)
     if (move != "")
         read = true;
 startLoop:
-    if (move == "") {
+    if (move == "")
+    {
         cout << p.getName() << "'s turn" << endl;
         cout << "Please enter your move : " << endl;
         move = "";

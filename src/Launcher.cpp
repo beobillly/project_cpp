@@ -72,14 +72,14 @@ startLoop:
         Draughts draughts = Draughts(true);
         while (true)
         {
-
+            draughts.refresh();
             draughts.move(draughts.getPlayerWhite(), "", "../history.txt");
             if (draughts.hasLost(draughts.getPlayerBlack()))
             {
                 std::cout << draughts.getPlayerWhite().getName() << " wins !" << endl;
                 goto gameOver;
             }
-
+            draughts.refresh();
             draughts.move(draughts.getPlayerBlack(), "", "../history.txt");
             if (draughts.hasLost(draughts.getPlayerWhite()))
             {
